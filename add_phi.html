@@ -205,7 +205,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="col-form-label" for="order_id">Select District</label>
-                            <select class="form-control" >
+                            <select id="selectDistrict" class="form-control" >
                                 <option>option 1</option>
                                 <option>option 2</option>
                             </select>
@@ -214,7 +214,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="col-form-label" for="status">MOH</label>
-                            <select class="form-control" >
+                            <select id="selectMOH" class="form-control" >
                                 <option>option 1</option>
                                 <option>option 2</option>
                             </select>
@@ -264,7 +264,7 @@
                 <div class="form-group row">
                     <div class="col-sm-4 col-sm-offset-2">
                         <button class="btn btn-white btn-sm" type="submit">Cancel</button>
-                        <button class="btn btn-primary btn-sm" type="submit">Save changes</button>
+                        <button class="btn btn-primary btn-sm" type="submit" id="submitButton">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -316,6 +316,65 @@
 
     });
 </script>
+
+<script src="./js/config.js"></script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    import { getDatabase , set, ref, update} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    var database = getDatabase(app);
+    const auth = getAuth();
+
+    document.getElementById("submitButton").addEventListener("click", addphi);
+
+    function addphi(event){
+        event.preventDefault()
+
+        var selectDistrict = getElementVal('selectDistrict');
+        var selectMOH = getElementVal('selectMOH');
+        var name = getElementVal('name');
+        var email = getElementVal('email');
+        var birthDay = getElementVal('date_modified');
+        var telephone = getElementVal('telephone');
+        var password = getElementVal('password');
+
+
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+
+            set(ref(database,'users/'+ user.uid),{
+                selectDistrict : selectDistrict,
+                selectMOH : selectMOH,
+                name : name,
+                email : email,
+                birthDay : birthDay,
+                telephone : telephone,
+                password : password
+            })
+
+            alert('user created!');
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+            alert(errorMessage);
+        });
+    }
+
+    const getElementVal = (id) => {
+        return document.getElementById(id).value;
+    }
+  </script>
 
 </body>
 
