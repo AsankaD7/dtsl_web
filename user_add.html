@@ -220,10 +220,6 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-form-label" for="date_added">User ID</label>
-                            <input type="text" id="userId" name="userId" value="" placeholder="userId" class="form-control">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -342,7 +338,6 @@
         event.preventDefault()
 
         var selectRole = getElementVal('selectRole');
-        var userId = getElementVal('userId');
         var name = getElementVal('name');
         var email = getElementVal('email');
         var birthDay = getElementVal('date_modified');
@@ -355,9 +350,8 @@
             // Signed in 
             const user = userCredential.user;
 
-            set(ref(database,'user_role/'+ userId),{
+            set(ref(database,'user_roles/'+ user.uid),{
                 selectRole : selectRole,
-                authId : user.uid,
                 name : name,
                 email : email,
                 birthDay : birthDay,
