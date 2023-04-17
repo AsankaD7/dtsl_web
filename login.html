@@ -35,12 +35,12 @@
             <p>Login in. To see it in action.</p>
             <form class="m-t" role="form" action="index.html">
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Username" required="">
+                    <input type="email" id="email" class="form-control" placeholder="Username" required="">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password" required="">
+                    <input type="password" id="password" class="form-control" placeholder="Password" required="">
                 </div>
-                <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+                <button type="submit" class="btn btn-primary block full-width m-b" id="loginUser">Login</button>
 
                 <a href="forgot_password.html"><small>Forgot password?</small></a>
             </form>
@@ -52,6 +52,69 @@
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.js"></script>
+
+    <script src="./js/config.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+        import { getDatabase , set, ref, update, onValue} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        var database = getDatabase(app);
+        const auth = getAuth();
+    
+        document.getElementById("loginUser").addEventListener("click", loginUser);
+    
+        function loginUser(event){
+            event.preventDefault()
+    
+        var email = getElementVal('email');
+        var password = getElementVal('password');
+    
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+
+                const dt = new Date();
+                update(ref(database,'user_roles/'+ user.uid),{
+                    last_login : dt 
+                });
+
+                onValue(ref(database,'user_roles/'+ user.uid), (snapshot) => {
+                    var userRole = snapshot.val().selectRole;
+
+                    if (userRole == 'MOH Admin'){
+                        window.location.href = "add_phi.html";
+                    }
+                    else if (userRole == 'Hospital Admin'){
+                        window.location.href = "add_patient.html";
+                    }
+                    else if  (userRole == 'System Admin'){
+                        window.location.href = "google_maps.html";
+                    }
+                    else{
+                        window.location.href = "google_maps.html";
+                    }
+                    
+                });
+
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
+        }
+    
+        const getElementVal = (id) => {
+            return document.getElementById(id).value;
+        }
+    </script>
 
 </body>
 

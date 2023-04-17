@@ -366,7 +366,7 @@
         var password = getElementVal('password');
         
 
-            update(ref(database,'user_role/'+ userID),{
+            update(ref(database,'user_roles/'+ userID),{
                 selectRole : selectRole,
                 name : name,
                 email : email,
@@ -386,7 +386,7 @@
 
         var userID = getElementVal('userID');
 
-        const starCountRef = ref(database, 'user_role/'+ userID);
+        const starCountRef = ref(database, 'user_roles/'+ userID);
         onValue(starCountRef, (snapshot) => {
             document.getElementById("selectRole").value = snapshot.val().selectRole;
             document.getElementById("name").value = snapshot.val().name;
