@@ -439,8 +439,12 @@
 	<!-- Data picker -->
 	<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-	<script>
+	<script type="text/javascript">
+	
+	
 		$(document).ready(function() {
+			
+			
 
 			$('.summernote').summernote();
 
@@ -462,6 +466,13 @@
 	<script src="./config/config.js"></script>
 	<script src="./js/sweetalert.min.js"></script>
 	<script type="module">
+
+import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+
+window.onload = function () {
+		createPatientGrid();
+
+    };
 
  var database = firebase.firestore();
     
@@ -566,6 +577,32 @@ $("#patient_district").keyup(function () {
                         $("#div_patient_disease_note").attr('class', 'col-sm-12');
                     }
                 });
+
+async function createPatientGrid() {
+
+
+const q = query(collection(database, "patient_data"));
+const querySnapshot = await getDocs(q);
+querySnapshot.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+  console.log(doc.id, " => ", doc.data());
+
+var doc_data = doc.data();
+   ridrow += '<tr>' +      '<th style="font-weight: 500;">' + doc_data.patient_nic + '</th>' +
+                                    '<th style="font-weight: 500;">' + doc_data.patient_name + '</th>' +
+                                    '<th style="font-weight: 500;">' + doc_data.patient_moh + '</th>' +
+                                    '<th style="font-weight: 500;">' + doc_data.patient_disease + '</th>' +
+                                    '<th style="font-weight: 500;"><button class="btn-primary btn" type="button" style="width: 70px;" onclick="fillPatientData(\'' + doc_data.patient_nic + '\')">Edit</button></th>' +
+                                    '</tr>';
+
+});
+
+
+
+  document.getElementById('patient_table_body').innerHTML = gridrow;
+                 
+                     
+            }
 
 function validatePatient() {
 
