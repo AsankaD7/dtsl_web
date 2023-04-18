@@ -13,20 +13,26 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
+    <!-- CDN for Firebase services -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+    <script src="./config/config.js"></script>
+    <script src="./js/userRole.js"></script>
+
 </head>
 
 <body>
-
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <img alt="image" class="rounded-circle" src="img/profile_small.jpg"/>
+                            <img id="userImage" alt="image" class="rounded-circle" src="img/profile_small.jpg" />
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span class="block m-t-xs font-bold">Asanka Jayasinghe</span>
-                                <span class="text-muted text-xs block">Admin <b class="caret"></b></span>
+                                <span id="nameSpan" class="block m-t-xs font-bold"></span>
+                                <span id="role" class="text-muted text-xs block"><b class="caret"></b></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a class="dropdown-item" href="profile.html">Profile</a></li>
@@ -41,47 +47,52 @@
                         </div>
                     </li>
                     <li>
-                        <a href="google_maps.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
+                        <a href="google_maps.html"><i class="fa fa-th-large"></i> <span
+                                class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li><a href="google_maps.html">Map</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Patient</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Patient</span><span
+                                class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li><a href="patient.html">Patient History</a></li>
                             <li><a href="add_patient.html">Add Patient</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">MOH</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">MOH</span><span
+                                class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li><a href="add_phi.html">ADD PHI</a></li>
                             <li><a href="form_advanced.html">MOH JOB</a></li>
                         </ul>
                     </li>
                 </ul>
-    
+
             </div>
         </nav>
         <div id="page-wrapper" class="gray-bg">
-        <div class="row border-bottom">
-            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" action="search_results.html">
-                        <div class="form-group">
-                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
-                        </div>
-                    </form>
-                </div>
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i> </a>
+                        <form role="search" class="navbar-form-custom" action="search_results.html">
+                            <div class="form-group">
+                                <input type="text" placeholder="Search for something..." class="form-control"
+                                    name="top-search" id="top-search">
+                            </div>
+                        </form>
+                    </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
                             <span class="m-r-sm text-muted welcome-message">Welcome to MOH Admin Page.</span>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
+                                <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
                             </a>
                             <ul class="dropdown-menu dropdown-messages">
                                 <li>
@@ -121,7 +132,7 @@
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                                <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
                             </a>
                             <ul class="dropdown-menu dropdown-alerts">
                                 <li>
@@ -161,17 +172,17 @@
                                 </li>
                             </ul>
                         </li>
-        
-        
+
+
                         <li>
                             <a href="login.html">
                                 <i class="fa fa-sign-out"></i> Log out
                             </a>
                         </li>
                     </ul>
-        
-            </nav>
-        </div>
+
+                </nav>
+            </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
                     <h2>Google Maps</h2>
@@ -191,42 +202,45 @@
 
                 </div>
             </div>
-        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="wrapper wrapper-content  animated fadeInRight">
 
-<!--
+                <!--
  You need to include this script on any page that has a Google Map.
  When using Google Maps on your own site you MUST signup for your own API key at:
  https://developers.google.com/maps/documentation/javascript/tutorial#api_key
  After your sign up replace the key in the URL below..
 -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
+                <script type="text/javascript"
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5>Google Maps Basic example</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <p>
-                                With google maps <a href="https://developers.google.com/maps/documentation/javascript/reference#MapOptions">API</a> You can easy customize your map.
-                            </p>
-                            <div class="google-map" id="map1"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h5>Google Maps Basic example</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <p>
+                                    With google maps <a
+                                        href="https://developers.google.com/maps/documentation/javascript/reference#MapOptions">API</a>
+                                    You can easy customize your map.
+                                </p>
+                                <div class="google-map" id="map1"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="footer">
-            <div class="float-right">
-                10GB of <strong>250GB</strong> Free.
-            </div>
-            <div>
-                <strong>Copyright</strong> ADJ Company &copy; 2023-2024
+            <div class="footer">
+                <div class="float-right">
+                    10GB of <strong>250GB</strong> Free.
+                </div>
+                <div>
+                    <strong>Copyright</strong> ADJ Company &copy; 2023-2024
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
@@ -246,45 +260,45 @@
         google.maps.event.addDomListener(window, 'load', initMap);
 
         function initMap() {
-                var map = new google.maps.Map(document.getElementById('map1'), {
-                    zoom: 09,
-                    center: {lat: 35.6896, lng: 139.7006}
-                });
-                
-                var marker1 = new google.maps.Marker({
-                    position: {lat: 35.6896, lng:  139.7006},
-                    map: map,
-                    title: 'Marker 1'
-                });
-                
-                var marker2 = new google.maps.Marker({
-                    position: {lat: 35.4660, lng: 139.6221},
-                    map: map,
-                    title: 'Marker 2'
-                });
-                
-                var marker3 = new google.maps.Marker({
-                    position: {lat: 35.4393, lng: 139.3643},
-                    map: map,
-                    title: 'Marker 3'
-                });
-                
-                var triangleCoords = [
-                    {lat: 35.6896, lng: 139.7006},
-                    {lat: 35.4660, lng: 139.6221},
-                    {lat: 35.4393, lng: 139.3643}
-                ];
-                
-                var triangle = new google.maps.Polygon({
-                    paths: triangleCoords,
-                    strokeColor: '#FF0000',
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: '#FF0000',
-                    fillOpacity: 0.35
-                });
-                
-                triangle.setMap(map);
+            var map = new google.maps.Map(document.getElementById('map1'), {
+                zoom: 09,
+                center: { lat: 35.6896, lng: 139.7006 }
+            });
+
+            var marker1 = new google.maps.Marker({
+                position: { lat: 35.6896, lng: 139.7006 },
+                map: map,
+                title: 'Marker 1'
+            });
+
+            var marker2 = new google.maps.Marker({
+                position: { lat: 35.4660, lng: 139.6221 },
+                map: map,
+                title: 'Marker 2'
+            });
+
+            var marker3 = new google.maps.Marker({
+                position: { lat: 35.4393, lng: 139.3643 },
+                map: map,
+                title: 'Marker 3'
+            });
+
+            var triangleCoords = [
+                { lat: 35.6896, lng: 139.7006 },
+                { lat: 35.4660, lng: 139.6221 },
+                { lat: 35.4393, lng: 139.3643 }
+            ];
+
+            var triangle = new google.maps.Polygon({
+                paths: triangleCoords,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35
+            });
+
+            triangle.setMap(map);
         }
     </script>
 

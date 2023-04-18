@@ -24,6 +24,7 @@
         <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
         <script src="./config/config.js"></script>
+        <script src="./js/userRole.js"></script>
 </head>
 
 <body>
@@ -51,7 +52,7 @@
     
                 user.updateProfile({
                 displayName: name,
-                photoURL: 'https://example.com/avatar.jpg'
+                photoURL: 'img/profile_small.jpg'
                 })
     
                 // Add a new user with a generated ID
@@ -96,10 +97,10 @@
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element">
-                        <img alt="image" class="rounded-circle" src="img/profile_small.jpg"/>
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="block m-t-xs font-bold">Asanka Jayasinghe</span>
-                            <span class="text-muted text-xs block">Admin <b class="caret"></b></span>
+                        <img id="userImage" alt="image" class="rounded-circle" src="img/profile_small.jpg" />
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span id="nameSpan" class="block m-t-xs font-bold"></span>
+                                <span id="role" class="text-muted text-xs block"><b class="caret"></b></span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a class="dropdown-item" href="profile.html">Profile</a></li>
