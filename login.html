@@ -49,37 +49,37 @@
                         last_login: dt
                     });
 
-            database.collection("user_roles").doc(user.uid).get().then((doc) => {
-                if (doc.exists) {
+                    database.collection("user_roles").doc(user.uid).get().then((doc) => {
+                        if (doc.exists) {
 
-                    var userRole = doc.data().selectRole;
+                            var userRole = doc.data().selectRole;
 
-                        if (userRole == 'MOH Admin') {
-                            window.location.href = "add_phi.html";
+                            if (userRole == 'MOH Admin') {
+                                window.location.href = "add_phi.html";
+                            }
+                            else if (userRole == 'Hospital Admin') {
+                                window.location.href = "add_patient.html";
+                            }
+                            else if (userRole == 'System Admin') {
+                                window.location.href = "google_maps.html";
+                            }
+                            else {
+                                window.location.href = "google_maps.html";
+                            }
+                        } else {
+                            // doc.data() will be undefined in this case
+                            console.log("No such user!");
                         }
-                        else if (userRole == 'Hospital Admin') {
-                            window.location.href = "add_patient.html";
-                        }
-                        else if (userRole == 'System Admin') {
-                            window.location.href = "google_maps.html";
-                        }
-                        else {
-                            window.location.href = "google_maps.html";
-                        }
-                } else {
-                    // doc.data() will be undefined in this case
-                    console.log("No such document!");
-                }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
+                    }).catch((error) => {
+                        console.log("Error getting document:", error);
+                    });
 
-            // ...
-        })
-                .catch ((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-        });
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                });
         }
 
         const getElementVal = (id) => {
