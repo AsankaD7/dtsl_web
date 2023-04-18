@@ -202,103 +202,199 @@
 
             <div class="ibox-content m-b-sm border-bottom">
                 <div class="row">
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="order_id">Select District</label>
-                            <select class="form-control" >
-                                <option>option 1</option>
-                                <option>option 2</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="status">MOH</label>
-                            <select class="form-control" >
-                                <option>option 1</option>
-                                <option>option 2</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="customer">Hospital</label>
-                            <select class="form-control" >
-                                <option>option 1</option>
-                                <option>option 2</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+						<div id="div_patient_district" class="col-sm-4">
+							<div class="form-group">
+								<label class="col-form-label" for="order_id">Select
+									District</label> <select id="patient_district" class="form-control">
+									<option>Colombo</option>
+									<option>Gampaha</option>
+									<option>Kalutara</option>
+									<option>Kandy</option>
+									<option>Matale</option>
+									<option>Nuwara Eliya</option>
+									<option>Galle</option>
+									<option>Matara</option>
+									<option>Hambantota</option>
+									<option>Jaffna</option>
+									<option>Kilinochchi</option>
+									<option>Mannar</option>
+									<option>Vavuniya</option>
+									<option>Mullaitivu</option>
+									<option>Batticaloa</option>
+									<option>Ampara</option>
+									<option>Trincomalee</option>
+									<option>Kurunegala</option>
+									<option>Puttalam</option>
+									<option>Anuradhapura</option>
+									<option>Polonnaruwa</option>
+									<option>Badulla</option>
+									<option>Moneragala</option>
+									<option>Ratnapura</option>
+									<option>Kegalle</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div id="div_patient_moh" class="form-group">
+								<label class="col-form-label" for="status">MOH</label> <select
+									id="patient_moh" class="form-control">
+									<option>Ampara</option>
+									<option>Dehiattakandiya</option>
+									<option>Uhana</option>
+									<option>Mahaoya</option>
+									<option>Padiyathalawa</option>
+									<option>Lahugala</option>
+									<option>Damana</option>
+									<option>Anuradhapura (cnp)</option>
+									<option>Kahatagasdigiliya</option>
+									<option>Kekirawa(palugaswewa)</option>
+									<option>Medawachchiya</option>
+									<option>Padaviya</option>
+									<option>Thambuttegama</option>
+									<option>Galnewa</option>
+									<option>Nochchiyagama</option>
+									<option>Anuradhapura (nnp/npe)</option>
+									<option>Mihintale</option>
+									<option>Rajanganaya</option>
+									<option>Horowpathana</option>
+									<option>Palagala</option>
+									<option>Kebethigollewa</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div id ="div_patient_hospital" class="form-group">
+								<label class="col-form-label" for="customer">Hospital</label> <select
+									id="patient_hospital" class="form-control">
+									<option>DH Akurana</option>
+									<option>DH Ankumbura</option>
+									<option>PMCU Abagahapelessa</option>
+									<option>PMCU Atabage</option>
+									<option>DH Babaradeniya</option>
+									<option>DH Batumulla</option>
+									<option>DH Bokkawala</option>
+									<option>PMCU Deltota</option>
+									<option>DH Dolosbage</option>
+									<option>DH Dunhinna</option>
+									<option>DH Galagedara</option>
+									<option>DH Galaha</option>
+									<option>PMCU Gelioya</option>
+								</select>
+							</div>
+						</div>
+					</div>
             </div>
 
             <div class="ibox-content m-b-sm border-bottom">
                 <div class="row">
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="date_added">Name</label>
-                            <input type="text" id="name" name="name" value="" placeholder="Name" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="age">Age</label>
-                            <input type="text" id="age" name="age" value="" placeholder="Age" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="dob">DOB</label>
-                            <div class="input-group date">
-                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input id="date_modified" type="text" class="form-control" value="03/06/2014">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="address">Address</label>
-                            <input type="text" id="address" name="address" value="" placeholder="Address" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="telephone">Telephone</label>
-                            <input type="text" id="telephone" name="telephone" value="" placeholder="Telephone" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="dob">Gender</label>
-                            <select class="form-control" >
-                                <option>option 1</option>
-                                <option>option 2</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="address">Note</label>
-                            <div class="summernote">
-                                <h3>Basic history</h3>
-                                As a medical student, student nurse, physician associate, or allied health professional you learn the art of taking a formal history, 
-                                examining a patient, and interpreting investigations. The history is considered the most important aspect of the interaction between 
-                                patient and doctor. It is the cornerstone of the doctor-patient relationship and relies on good communication skills. Most information 
-                                about a patient can be determined by the history alone.
-                                <br/>
+						<div id="div_patient_nic" class="col-sm-4">
+							<div class="form-group">
+								<label class="col-form-label" for="name">NIC</label> <input
+									type="text" id="patient_nic" name="name" value=""
+									placeholder="NIC" class="form-control">
+							</div>
+						</div>
+						<div id="div_patient_name" class="col-sm-8">
+							<div class="form-group">
+								<label class="col-form-label" for="date_added">Name</label> <input
+									type="text" id="patient_name" name="name" value=""
+									placeholder="Name" class="form-control">
+							</div>
+						</div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
+					</div>
+					<div class="row">
+						<div id="div_patient_gender" class="col-sm-4">
+							<div class="form-group">
+								<label class="col-form-label" for="dob">Gender</label> <select
+									id="patient_gender" class="form-control">
+									<option>Male</option>
+									<option>Female</option>
+								</select>
+							</div>
+						</div>
+						<div id="div_patient_dob" class="col-sm-4">
+							<div class="form-group">
+								<label class="col-form-label" for="dob">DOB</label>
+								<div class="input-group date">
+									<span class="input-group-addon"><i
+										class="fa fa-calendar"></i></span><input id="patient_dob" type="text"
+										class="form-control" value="03/06/2014">
+								</div>
+							</div>
+						</div>
+
+						<div id="div_patient_age" class="col-sm-4">
+							<div class="form-group">
+								<label class="col-form-label" for="age">Age</label> <input
+									type="text" id="patient_age" name="patientAge" value=""
+									placeholder="Age" class="form-control">
+							</div>
+						</div>
+
+					</div>
+					<div class="row">
+						<div id="div_patient_telephone1" class="col-sm-4">
+							<div class="form-group">
+								<label class="col-form-label" for="telephone">Telephone
+									1</label> <input type="text" id="patient_telephone1" name="telephone"
+									value="" placeholder="Telephone 1" class="form-control">
+							</div>
+						</div>
+						<div id="div_patient_telephone2" class="col-sm-4">
+							<div class="form-group">
+								<label class="col-form-label" for="telephone">Telephone
+									2</label> <input type="text" id="patient_telephone2" name="telephone"
+									value="" placeholder="Telephone 2" class="form-control">
+							</div>
+						</div>
+						<div id="div_patient_telephone2" class="col-sm-4">
+							<div class="form-group">
+								<label class="col-form-label" for="address">Address</label> <input
+								<textarea class="form-control" id="patient_address" rows="4"></textarea>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div id="div_patient_disease" class="col-sm-12">
+							<div class="form-group">
+								<label class="col-form-label" for="order_id">Select
+									Disease</label> <select id="patient_disease" class="form-control">
+									<option>Cholera</option>
+									<option>Plague</option>
+									<option>Yellow Fever</option>
+									<option>Chicken pox</option>
+									<option>Dengue Fever</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div id="div_patient_disease_note" class="col-sm-12">
+							<div class="form-group">
+								<label class="col-form-label" for="note">Note</label>
+								<textarea class="form-control" id="patient_disease_note"
+									rows="4"></textarea>
+								<!-- <div class="summernote">
+									<h3>Basic history</h3>
+									As a medical student, student nurse, physician associate, or
+									allied health professional you learn the art of taking a formal
+									history, examining a patient, and interpreting investigations.
+									The history is considered the most important aspect of the
+									interaction between patient and doctor. It is the cornerstone
+									of the doctor-patient relationship and relies on good
+									communication skills. Most information about a patient can be
+									determined by the history alone. <br />
+ -->
+							</div>
+						</div>
+					</div>
                 <div class="hr-line-dashed"></div>
                 <div class="form-group row">
                     <div class="col-sm-4 col-sm-offset-2">
-                        <button class="btn btn-white btn-sm" type="submit">Cancel</button>
-                        <button class="btn btn-primary btn-sm" type="submit">Save changes</button>
+                        <button class="btn btn-white btn-sm" type="button" id="clearButton">Cancel</button>
+                        <button class="btn btn-primary btn-sm" type="button" id="submitButton">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -352,25 +448,185 @@
 </script>
 
 <script src="./js/config.js"></script>
+<script src="./js/sweetalert.min.js"></script>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
+import {
+    getDatabase,
+    set,
+    ref,
+    update
+} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 
-$('#logout').on('click', function (e) {
+import {
+    getAuth,
+    signOut
+} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+
+const app = initializeApp(firebaseConfig);
+var database = getDatabase(app);
+
+$("#submitButton").click(function(e) {
+
+    if (validatePatient()) {
+
+        set(ref(database, 'patient_data/' + $("#patient_nic").val().trim()), {
+            patient_district: $("#patient_district").val().trim(),
+            patient_moh: $("#patient_moh").val().trim(),
+            patient_hospital: $("#patient_hospital").val().trim(),
+            patient_name: $("#patient_name").val().trim(),
+            patient_gender: $("#patient_gender").val().trim(),
+            patient_dob: $("#patient_dob").val().trim(),
+            patient_age: $("#patient_age").val().trim(),
+            patient_telephone1: $("#patient_telephone1").val().trim(),
+            patient_telephone2: $("#patient_telephone2").val().trim(),
+            patient_address: $("#patient_address").val().trim(),
+            patient_disease: $("#patient_disease").val().trim(),
+            patient_disease_note: $("#patient_disease_note").val().trim()
+        })
+
+									swal({
+                                        title: "Done!",
+                                        text: "Patient data saved successfully",
+                                        icon: "success",
+                                        button: "Ok",
+                                    }).then((value) => {
+                                        location.reload();
+                                    });
+
+    }
+});
+
+  $("#clearButton").click(function (e) {
+                    location.reload();
+                });
+
+$("#patient_district").keyup(function () {
+                    if (!($("#patient_district").val() === '')) {
+                        $("#div_patient_district").attr('class', 'col-sm-4');
+                    }
+                });
+				
+				$("#patient_moh").keyup(function () {
+                    if (!($("#patient_moh").val() === '')) {
+                        $("#div_patient_moh").attr('class', 'col-sm-4');
+                    }
+                });
+				
+				$("#patient_hospital").keyup(function () {
+                    if (!($("#patient_hospital").val() === '')) {
+                        $("#div_patient_hospital").attr('class', 'col-sm-4');
+                    }
+                });
+				
+				$("#patient_nic").keyup(function () {
+                    if (!($("#patient_nic").val() === '')) {
+                        $("#div_patient_nic").attr('class', 'col-sm-4');
+                    }
+                });
+				
+				$("#patient_name").keyup(function () {
+                    if (!($("#patient_name").val() === '')) {
+                        $("#div_patient_name").attr('class', 'col-sm-8');
+                    }
+                });
+				
+				$("#patient_dob").keyup(function () {
+                    if (!($("#patient_dob").val() === '')) {
+                        $("#div_patient_dob").attr('class', 'col-sm-4');
+                    }
+                });
+				
+				$("#patient_age").keyup(function () {
+                    if (!($("#patient_age").val() === '')) {
+                        $("#div_patient_age").attr('class', 'col-sm-4');
+                    }
+                });
+				
+				$("#patient_telephone1").keyup(function () {
+                    if (!($("#patient_telephone1").val() === '')) {
+                        $("#div_patient_telephone1").attr('class', 'col-sm-4');
+                    }
+                });
+				$("#patient_disease").keyup(function () {
+                    if (!($("#patient_disease").val() === '')) {
+                        $("#div_patient_disease").attr('class', 'col-sm-4');
+                    }
+                });
+				
+				$("#patient_disease_note").keyup(function () {
+                    if (!($("#patient_disease_note").val() === '')) {
+                        $("#div_patient_disease_note").attr('class', 'col-sm-12');
+                    }
+                });
+
+function validatePatient() {
+
+    var hasError = true;
+    if ($("#patient_district").val() === '') {
+        $("#div_patient_district").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+    if ($("#patient_moh").val() === '') {
+        $("#div_patient_moh").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+    if ($("#patient_hospital").val() === '') {
+        $("#div_patient_hospital").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+
+    if ($("#patient_nic").val() === '') {
+        $("#div_patient_nic").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+    if ($("#patient_name").val() === '') {
+        $("#div_patient_name").attr('class', 'col-sm-8 has-error');
+        hasError = false;
+    }
+    if ($("#patient_dob").val() === '') {
+        $("#div_patient_dob").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+    if ($("#patient_age").val() === '') {
+        $("#div_patient_age").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+
+    if ($("#patient_telephone1").val() === '') {
+        $("#div_patient_telephone1").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+
+    if ($("#patient_disease").val() === '') {
+        $("#div_patient_disease").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+
+    if ($("#patient_disease_note").val() === '') {
+        $("#div_patient_disease_note").attr('class', 'col-sm-12 has-error');
+        hasError = false;
+    }
+  
+    return hasError;
+                       
+}
+
+
+$('#logout').on('click', function(e) {
     e.preventDefault();
-        signOut(auth).then(() => {
+    signOut(auth).then(() => {
         // Sign-out successful.
         window.location.href = "login.html";
-        }).catch((error) => {
-                    const errorCode = error.code;
-            const errorMessage = error.message;
-            // ..
-            alert(errorMessage)
-        });
+    }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+        alert(errorMessage)
+    });
 });
 </script>
 
