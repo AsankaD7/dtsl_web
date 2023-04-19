@@ -275,8 +275,12 @@
 					<div class="row">
 						<div id="div_patient_nic" class="col-sm-4">
 							<div class="form-group">
-								<label class="col-form-label" for="name">NIC</label> <input type="text" id="patient_nic"
-									name="name" value="" placeholder="NIC" class="form-control">
+								<label class="col-form-label" for="name">NIC</label> <input
+									type="text" id="patient_nic" name="name" value=""
+									placeholder="NIC" class="form-control">
+									<input
+									type="hidden" id="primary_key" name="name" value=""
+									placeholder="primary_key" class="form-control">
 							</div>
 						</div>
 						<div id="div_patient_name" class="col-sm-8">
@@ -330,16 +334,16 @@
 									placeholder="Telephone 2" class="form-control">
 							</div>
 						</div>
-						<div id="div_patient_telephone2" class="col-sm-4">
+						<div id="div_patient_address" class="col-sm-4">
 							<div class="form-group">
-								<label class="col-form-label" for="address">Address</label> <input <textarea
-									class="form-control" id="patient_address" rows="4"></textarea>
+								<label class="col-form-label" for="address">Address</label>
+								<textarea class="form-control" id="patient_address" rows="4"></textarea>
 							</div>
 						</div>
 					</div>
 					<hr>
 					<div class="row">
-						<div id="div_patient_disease" class="col-sm-12">
+						<div id="div_patient_disease" class="col-sm-4">
 							<div class="form-group">
 								<label class="col-form-label" for="order_id">Select
 									Disease</label> <select id="patient_disease" class="form-control">
@@ -349,6 +353,16 @@
 									<option>Chicken pox</option>
 									<option>Dengue Fever</option>
 								</select>
+							</div>
+						</div>
+						<div id="div_patient_disease_date" class="col-sm-4">
+							<div class="form-group">
+								<label class="col-form-label" for="dob">Disease Identified Date</label>
+								<div class="input-group date">
+									<span class="input-group-addon"><i
+										class="fa fa-calendar"></i></span><input id="patient_disease_date" type="text"
+										class="form-control" value="03/06/2014">
+								</div>
 							</div>
 						</div>
 					</div>
@@ -374,8 +388,12 @@
 					<div class="hr-line-dashed"></div>
 					<div class="form-group row">
 						<div class="col-sm-4 col-sm-offset-2">
-							<button class="btn btn-white btn-sm" type="button" id="clearButton">Cancel</button>
-							<button class="btn btn-primary btn-sm" type="button" id="submitButton">Save changes</button>
+							<button class="btn btn-white btn-sm" type="button"
+								id="clearButton">Cancel</button>
+							<button class="btn btn-primary btn-sm" type="button"
+								id="submitButton">Save changes</button>
+							<button class="btn btn-info btn-sm" type="button"
+								id="updateButton">Update changes</button>
 						</div>
 					</div>
 					<hr>
@@ -389,6 +407,7 @@
 											<th>Patient Name</th>
 											<th>MOH Office</th>
 											<th>Disease</th>
+											<th>Identified Date</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -434,14 +453,8 @@
 	<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
 	<script type="text/javascript">
-
-
-		$(document).ready(function () {
-
-
-
+		$(document).ready(function() {
 			$('.summernote').summernote();
-
 			$('.input-group.date').datepicker({
 				todayBtn: "linked",
 				keyboardNavigation: false,
@@ -459,210 +472,305 @@
 	<script src="./config/config.js"></script>
 	<script src="./js/sweetalert.min.js"></script>
 	<script type="module">
+    window.onload = function() {
+        createPatientGrid();
+    };
 
-		import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+    var database = firebase.firestore();
 
-		window.onload = function () {
-			createPatientGrid();
+    async function createPatientGrid() {
+        var gridrow = '';
 
-		};
+        const patientJobRef = firebase.firestore().collection('patient_data');
+        patientJobRef.onSnapshot(
+            querySnapshot => {
+                querySnapshot.forEach((doc) => {
+                    var doc_data = doc.data();
+                    console.log(doc_data)
+                    gridrow += '<tr>' + '<th style="font-weight: 500;">' + doc_data.patient_nic + '</th>' +
+                        '<th style="font-weight: 500;">' + doc_data.patient_name + '</th>' +
+                        '<th style="font-weight: 500;">' + doc_data.patient_moh + '</th>' +
+                        '<th style="font-weight: 500;">' + doc_data.patient_disease + '</th>' +
+              '<th style="font-weight: 500;">' + doc_data.patient_disease_date + '</th>' +
+                        '<th style="font-weight: 500;"><button class="btn-primary btn" type="button" style="width: 70px;" onclick="getPatientData(\'' + doc.id + '\')">Edit</button></th>' +
+                        '</tr>';
+                    document.getElementById('patient_table_body').innerHTML = gridrow;
 
-		var database = firebase.firestore();
+                })
+            }
+        )
+    }
 
-		$("#submitButton").click(function (e) {
+    $("#submitButton").click(function(e) {
 
-			if (validatePatient()) {
+        if (validatePatient()) {
 
-				database.collection("patient_data").doc($("#patient_nic").val().trim()).set({
-					patient_district: $("#patient_district").val().trim(),
-					patient_moh: $("#patient_moh").val().trim(),
-					patient_hospital: $("#patient_hospital").val().trim(),
-					patient_name: $("#patient_name").val().trim(),
-					patient_gender: $("#patient_gender").val().trim(),
-					patient_dob: $("#patient_dob").val().trim(),
-					patient_age: $("#patient_age").val().trim(),
-					patient_telephone1: $("#patient_telephone1").val().trim(),
-					patient_telephone2: $("#patient_telephone2").val().trim(),
-					patient_address: $("#patient_address").val().trim(),
-					patient_disease: $("#patient_disease").val().trim(),
-					patient_disease_note: $("#patient_disease_note").val().trim()
-				})
+        var m = new Date();
+        var dateString = m.getUTCFullYear() +""+ (m.getUTCMonth()+1) +""+ m.getUTCDate() + "" + m.getUTCHours() + "" + m.getUTCMinutes() + "" + m.getUTCSeconds();
 
-					.then((docRef) => {
-						swal({
-							title: "Done!",
-							text: "Patient data saved successfully",
-							icon: "success",
-							button: "Ok",
-						}).then((value) => {
-							location.reload();
-						});
-					})
-					.catch((error) => {
-						swal("System error !", "Unable to save data ,Please contact system administator !", "error");
+        var primary_key = $("#patient_nic").val().trim() +"-"+ dateString;
 
-					});
+            database.collection("patient_data").doc(primary_key).set({
+                    patient_nic: $("#patient_nic").val().trim(),
+            patient_district: $("#patient_district").val().trim(),
+                    patient_moh: $("#patient_moh").val().trim(),
+                    patient_hospital: $("#patient_hospital").val().trim(),
+                    patient_name: $("#patient_name").val().trim(),
+                    patient_gender: $("#patient_gender").val().trim(),
+                    patient_dob: $("#patient_dob").val().trim(),
+                    patient_age: $("#patient_age").val().trim(),
+                    patient_telephone1: $("#patient_telephone1").val().trim(),
+                    patient_telephone2: $("#patient_telephone2").val().trim(),
+                    patient_address: $("#patient_address").val().trim(),
+                    patient_disease: $("#patient_disease").val().trim(),
+            patient_disease_date: $("#patient_disease_date").val().trim(),
+                    patient_disease_note: $("#patient_disease_note").val().trim()
+                })
 
+                .then((docRef) => {
+                    swal({
+                        title: "Done!",
+                        text: "Patient data saved successfully",
+                        icon: "success",
+                        button: "Ok",
+                    }).then((value) => {
+                        location.reload();
+                    });
+                })
+                .catch((error) => {
+                    swal("System error !", "Unable to save data ,Please contact system administator !", "error");
 
+                });
 
-			}
-		});
+        }
+    });
 
-		$("#clearButton").click(function (e) {
-			location.reload();
-		});
+    $("#updateButton").click(function(e) {
 
-		$("#patient_district").keyup(function () {
-			if (!($("#patient_district").val() === '')) {
-				$("#div_patient_district").attr('class', 'col-sm-4');
-			}
-		});
+        if (validatePatient()) {
 
-		$("#patient_moh").keyup(function () {
-			if (!($("#patient_moh").val() === '')) {
-				$("#div_patient_moh").attr('class', 'col-sm-4');
-			}
-		});
+            database.collection("patient_data").doc($("#primary_key").val().trim()).update({
+            patient_nic: $("#patient_nic").val().trim(),
+                    patient_district: $("#patient_district").val().trim(),
+                    patient_moh: $("#patient_moh").val().trim(),
+                    patient_hospital: $("#patient_hospital").val().trim(),
+                    patient_name: $("#patient_name").val().trim(),
+                    patient_gender: $("#patient_gender").val().trim(),
+                    patient_dob: $("#patient_dob").val().trim(),
+                    patient_age: $("#patient_age").val().trim(),
+                    patient_telephone1: $("#patient_telephone1").val().trim(),
+                    patient_telephone2: $("#patient_telephone2").val().trim(),
+                    patient_address: $("#patient_address").val().trim(),
+                    patient_disease: $("#patient_disease").val().trim(),
+            patient_disease_date: $("#patient_disease_date").val().trim(),
+                    patient_disease_note: $("#patient_disease_note").val().trim()
+                })
 
-		$("#patient_hospital").keyup(function () {
-			if (!($("#patient_hospital").val() === '')) {
-				$("#div_patient_hospital").attr('class', 'col-sm-4');
-			}
-		});
+                .then((docRef) => {
+                    swal({
+                        title: "Done!",
+                        text: "Patient data updated successfully",
+                        icon: "success",
+                        button: "Ok",
+                    }).then((value) => {
+                        location.reload();
+                    });
+                })
+                .catch((error) => {
+                    swal("System error !", "Unable to update data ,Please contact system administator !", "error");
 
-		$("#patient_nic").keyup(function () {
-			if (!($("#patient_nic").val() === '')) {
-				$("#div_patient_nic").attr('class', 'col-sm-4');
-			}
-		});
+                });
 
-		$("#patient_name").keyup(function () {
-			if (!($("#patient_name").val() === '')) {
-				$("#div_patient_name").attr('class', 'col-sm-8');
-			}
-		});
+        }
+    });
 
-		$("#patient_dob").keyup(function () {
-			if (!($("#patient_dob").val() === '')) {
-				$("#div_patient_dob").attr('class', 'col-sm-4');
-			}
-		});
+    $("#clearButton").click(function(e) {
+        location.reload();
+    });
 
-		$("#patient_age").keyup(function () {
-			if (!($("#patient_age").val() === '')) {
-				$("#div_patient_age").attr('class', 'col-sm-4');
-			}
-		});
+    $("#patient_district").keyup(function() {
+        if (!($("#patient_district").val() === '')) {
+            $("#div_patient_district").attr('class', 'col-sm-4');
+        }
+    });
 
-		$("#patient_telephone1").keyup(function () {
-			if (!($("#patient_telephone1").val() === '')) {
-				$("#div_patient_telephone1").attr('class', 'col-sm-4');
-			}
-		});
-		$("#patient_disease").keyup(function () {
-			if (!($("#patient_disease").val() === '')) {
-				$("#div_patient_disease").attr('class', 'col-sm-4');
-			}
-		});
+    $("#patient_moh").keyup(function() {
+        if (!($("#patient_moh").val() === '')) {
+            $("#div_patient_moh").attr('class', 'col-sm-4');
+        }
+    });
 
-		$("#patient_disease_note").keyup(function () {
-			if (!($("#patient_disease_note").val() === '')) {
-				$("#div_patient_disease_note").attr('class', 'col-sm-12');
-			}
-		});
+    $("#patient_hospital").keyup(function() {
+        if (!($("#patient_hospital").val() === '')) {
+            $("#div_patient_hospital").attr('class', 'col-sm-4');
+        }
+    });
 
-		async function createPatientGrid() {
+    $("#patient_nic").keyup(function() {
+        if (!($("#patient_nic").val() === '')) {
+            $("#div_patient_nic").attr('class', 'col-sm-4');
+        }
+    });
 
+    $("#patient_name").keyup(function() {
+        if (!($("#patient_name").val() === '')) {
+            $("#div_patient_name").attr('class', 'col-sm-8');
+        }
+    });
 
-			const q = query(collection(database, "patient_data"));
-			const querySnapshot = await getDocs(q);
-			querySnapshot.forEach((doc) => {
-				// doc.data() is never undefined for query doc snapshots
-				console.log(doc.id, " => ", doc.data());
+    $("#patient_dob").keyup(function() {
+        if (!($("#patient_dob").val() === '')) {
+            $("#div_patient_dob").attr('class', 'col-sm-4');
+        }
+    });
 
-				var doc_data = doc.data();
-				ridrow += '<tr>' + '<th style="font-weight: 500;">' + doc_data.patient_nic + '</th>' +
-					'<th style="font-weight: 500;">' + doc_data.patient_name + '</th>' +
-					'<th style="font-weight: 500;">' + doc_data.patient_moh + '</th>' +
-					'<th style="font-weight: 500;">' + doc_data.patient_disease + '</th>' +
-					'<th style="font-weight: 500;"><button class="btn-primary btn" type="button" style="width: 70px;" onclick="fillPatientData(\'' + doc_data.patient_nic + '\')">Edit</button></th>' +
-					'</tr>';
+    $("#patient_age").keyup(function() {
+        if (!($("#patient_age").val() === '')) {
+            $("#div_patient_age").attr('class', 'col-sm-4');
+        }
+    });
 
-			});
+    $("#patient_telephone1").keyup(function() {
+        if (!($("#patient_telephone1").val() === '')) {
+            $("#div_patient_telephone1").attr('class', 'col-sm-4');
+        }
+    });
 
+    $("#patient_address").keyup(function() {
+        if (!($("#patient_address").val() === '')) {
+            $("#div_patient_address").attr('class', 'col-sm-4');
+        }
+    });
 
+    $("#patient_disease").keyup(function() {
+        if (!($("#patient_disease").val() === '')) {
+            $("#div_patient_disease").attr('class',  'col-sm-4');
+        }
+    });
 
-			document.getElementById('patient_table_body').innerHTML = gridrow;
+    $("#patient_disease_date").keyup(function() {
+        if (!($("#patient_disease_date").val() === '')) {
+            $("#div_patient_disease_date").attr('class',  'col-sm-4');
+        }
+    });
 
-
-		}
-
-		function validatePatient() {
-
-			var hasError = true;
-			if ($("#patient_district").val() === '') {
-				$("#div_patient_district").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-			if ($("#patient_moh").val() === '') {
-				$("#div_patient_moh").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-			if ($("#patient_hospital").val() === '') {
-				$("#div_patient_hospital").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-
-			if ($("#patient_nic").val() === '') {
-				$("#div_patient_nic").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-			if ($("#patient_name").val() === '') {
-				$("#div_patient_name").attr('class', 'col-sm-8 has-error');
-				hasError = false;
-			}
-			if ($("#patient_dob").val() === '') {
-				$("#div_patient_dob").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-			if ($("#patient_age").val() === '') {
-				$("#div_patient_age").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-
-			if ($("#patient_telephone1").val() === '') {
-				$("#div_patient_telephone1").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-
-			if ($("#patient_disease").val() === '') {
-				$("#div_patient_disease").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-
-			if ($("#patient_disease_note").val() === '') {
-				$("#div_patient_disease_note").attr('class', 'col-sm-12 has-error');
-				hasError = false;
-			}
-
-			return hasError;
-
-		}
+    $("#patient_disease_note").keyup(function() {
+        if (!($("#patient_disease_note").val() === '')) {
+            $("#div_patient_disease_note").attr('class', 'col-sm-12');
+        }
+    });
 
 
-		$('#logout').on('click', function (e) {
-			e.preventDefault();
-			signOut(auth).then(() => {
-				// Sign-out successful.
-				window.location.href = "login.html";
-			}).catch((error) => {
-				const errorCode = error.code;
-				const errorMessage = error.message;
-				// ..
-				alert(errorMessage)
-			});
-		});
-	</script>
+
+    function validatePatient() {
+
+        var hasError = true;
+        if ($("#patient_district").val() === '') {
+            $("#div_patient_district").attr('class', 'col-sm-4 has-error');
+            hasError = false;
+        }
+        if ($("#patient_moh").val() === '') {
+            $("#div_patient_moh").attr('class', 'col-sm-4 has-error');
+            hasError = false;
+        }
+        if ($("#patient_hospital").val() === '') {
+            $("#div_patient_hospital").attr('class', 'col-sm-4 has-error');
+            hasError = false;
+        }
+
+        if ($("#patient_nic").val() === '') {
+            $("#div_patient_nic").attr('class', 'col-sm-4 has-error');
+            hasError = false;
+        }
+        if ($("#patient_name").val() === '') {
+            $("#div_patient_name").attr('class', 'col-sm-8 has-error');
+            hasError = false;
+        }
+        if ($("#patient_dob").val() === '') {
+            $("#div_patient_dob").attr('class', 'col-sm-4 has-error');
+            hasError = false;
+        }
+        if ($("#patient_age").val() === '') {
+            $("#div_patient_age").attr('class', 'col-sm-4 has-error');
+            hasError = false;
+        }
+
+        if ($("#patient_telephone1").val() === '') {
+            $("#div_patient_telephone1").attr('class', 'col-sm-4 has-error');
+            hasError = false;
+        }
+
+    if ($("#patient_address").val() === '') {
+            $("#div_patient_address").attr('class', 'col-sm-4 has-error');
+            hasError = false;
+        }
+
+        if ($("#patient_disease").val() === '') {
+            $("#div_patient_disease").attr('class', 'col-sm-4 has-error');
+            hasError = false;
+        }
+
+    if ($("#patient_disease_date").val() === '') {
+            $("#div_patient_disease_date").attr('class', 'col-sm-4 has-error');
+            hasError = false;
+        }
+
+        if ($("#patient_disease_note").val() === '') {
+            $("#div_patient_disease_note").attr('class', 'col-sm-12 has-error');
+            hasError = false;
+        }
+
+        return hasError;
+
+    }
+
+
+    $('#logout').on('click', function(e) {
+        e.preventDefault();
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            window.location.href = "login.html";
+        }).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+            alert(errorMessage)
+        });
+    });
+
+</script>
+<script type="text/javascript">
+
+  function getPatientData(primary_key) {
+
+    var database = firebase.firestore();
+
+    database.collection("patient_data").doc(primary_key).get().then((doc) => {
+          if (doc.exists) {
+            $("#primary_key").val(doc.id);
+              $("#patient_nic").val(doc.data().patient_nic);
+              $("#patient_district").val(doc.data().patient_district);
+              $("#patient_moh").val(doc.data().patient_moh);
+              $("#patient_hospital").val(doc.data().patient_hospital);
+              $("#patient_name").val(doc.data().patient_name);
+              $("#patient_gender").val(doc.data().patient_gender);
+              $("#patient_dob").val(doc.data().patient_dob);
+              $("#patient_age").val(doc.data().patient_age);
+              $("#patient_telephone1").val(doc.data().patient_telephone1);
+              $("#patient_telephone2").val(doc.data().patient_telephone2);
+              $("#patient_address").val(doc.data().patient_address);
+              $("#patient_disease").val(doc.data().patient_disease);
+              $("#patient_disease_date").val(doc.data().patient_disease_date);
+              $("#patient_disease_note").val(doc.data().patient_disease_note);
+          } else {
+              console.log("No such user!");
+          }
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });
+  }
+
+</script>
 
 </body>
 
