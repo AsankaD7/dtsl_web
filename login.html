@@ -29,62 +29,74 @@
 <body class="gray-bg">
 
     <script>
-
-        // Create a Firestore instance
-        var database = firebase.firestore();
-
         function loginUser(event) {
-            event.preventDefault()
 
-            var email = getElementVal('email');
-            var password = getElementVal('password');
+            var form = document.getElementById("myForm");
+            form.addEventListener("submit", function (event) {
+                if (form.checkValidity()) {
+                    event.preventDefault();
 
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    // Signed in 
-                    const user = userCredential.user;
+                    // Create a Firestore instance
+                    var database = firebase.firestore();
 
-                    const dt = new Date();
-                    database.collection("user_roles").doc(user.uid).update({
-                        last_login: dt
-                    });
+                    var email = getElementVal('email');
+                    var password = getElementVal('password');
 
-                    database.collection("user_roles").doc(user.uid).get().then((doc) => {
-                        if (doc.exists) {
+                    firebase.auth().signInWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+                            // Signed in 
+                            const user = userCredential.user;
+                            const dt = new Date();
+                            database.collection("user_roles").doc(user.uid).update({
+                                last_login: dt
+                            });
 
-                            var userRole = doc.data().selectRole;
+                            database.collection("user_roles").doc(user.uid).get().then((doc) => {
+                                if (doc.exists) {
 
-                            if (userRole == 'MOH Admin') {
-                                window.location.href = "add_phi.html";
-                            }
-                            else if (userRole == 'Hospital Admin') {
-                                window.location.href = "add_patient.html";
-                            }
-                            else if (userRole == 'System Admin') {
-                                window.location.href = "google_maps.html";
-                            }
-                            else {
-                                window.location.href = "google_maps.html";
-                            }
-                        } else {
-                            // doc.data() will be undefined in this case
-                            console.log("No such user!");
-                        }
-                    }).catch((error) => {
-                        console.log("Error getting document:", error);
-                    });
+                                    var userRole = doc.data().selectRole;
 
-                    // ...
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                });
+                                    if (userRole == 'MOH Admin') {
+                                        window.location.href = "add_phi.html";
+                                    }
+                                    else if (userRole == 'Hospital Admin') {
+                                        window.location.href = "add_patient.html";
+                                    }
+                                    else if (userRole == 'System Admin') {
+                                        window.location.href = "google_maps.html";
+                                    }
+                                    else {
+                                        window.location.href = "google_maps.html";
+                                    }
+                                } else {
+                                    // doc.data() will be undefined in this case
+                                    alert("No such user !!!");
+                                }
+                            }).catch((error) => {
+                                console.log("Error getting document:", error);
+                            });
+
+                            // ...
+                        })
+                        .catch((error) => {
+                            document.getElementById("alertBox").style.display = "block";
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                        });
+
+                } else {
+                    // Form is invalid, show error message or do something else
+                    console.log("No such user!!");
+                }
+            });
         }
 
         const getElementVal = (id) => {
             return document.getElementById(id).value;
         }
+
+
+
     </script>
 
     <div class="middle-box text-center loginscreen animated fadeInDown">
@@ -99,7 +111,7 @@
                 and transmission.
             </p>
             <p>Login in. To see it in action.</p>
-            <form class="m-t" role="form" action="index.html">
+            <form class="m-t" role="form" id="myForm">
                 <div class="form-group">
                     <input type="email" id="email" class="form-control" placeholder="Username" required="">
                 </div>
@@ -110,6 +122,10 @@
                     onclick="loginUser(event)">Login</button>
 
                 <a href="forgot_password.html"><small>Forgot password?</small></a>
+
+                <div class="alert alert-warning" id="alertBox" role="alert" style="display: none;">
+                    No such user !!!
+                </div>
             </form>
             <p class="m-t"> <small><strong>Copyright</strong> ADJ Company &copy; 2023-2024</small> </p>
         </div>
