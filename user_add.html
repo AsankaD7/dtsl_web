@@ -19,372 +19,636 @@
     <link href="css/style.css" rel="stylesheet">
 
 
-        <!-- CDN for Firebase services -->
-        <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
-        <script src="./config/config.js"></script>
-        <script src="./js/userRole.js"></script>
+    <!-- CDN for Firebase services -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+    <script src="./js/sweetalert.min.js"></script>
+    <script src="./config/config.js"></script>
+    <script src="./js/userRole.js"></script>
+    <script src="./js/logout.js"></script>
+
 </head>
 
 <body>
 
     <script>
+        window.onload = function () {
+            loginState();
+            createUserGrid();
+        };
 
-        // Create a Firestore instance
-        var database = firebase.firestore();
-    
-        function adduser(event){
-            event.preventDefault()
-    
-            var selectRole = getElementVal('selectRole');
-            var name = getElementVal('name');
-            var email = getElementVal('email');
-            var birthDay = getElementVal('date_modified');
-            var telephone = getElementVal('telephone');
-            var password = getElementVal('password');
-    
-    
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-    
-                user.updateProfile({
-                displayName: name,
-                photoURL: 'img/profile_small.jpg'
-                })
-    
-                // Add a new user with a generated ID
-                database.collection("user_roles").doc(user.uid).set({
-                    selectRole : selectRole,
-                    name : name,
-                    email : email,
-                    birthDay : birthDay,
-                    telephone : telephone,
-                    password : password
-                })
-                .then((docRef) => {
-                    console.info("Document written with ID: ", docRef.id);
-                })
-                .catch((error) => {
-                    console.info("Error adding document: ", error);
-                });
-    
-                alert('user created!');
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // ..
-                alert(errorMessage);
+        async function createUserGrid() {
+            var gridrow = '';
+
+            const patientJobRef = firebase.firestore().collection('user_roles');
+            patientJobRef.onSnapshot(
+                querySnapshot => {
+                    querySnapshot.forEach((doc) => {
+                        var doc_data = doc.data();
+                        console.log(doc_data)
+
+                        var user_role = doc_data.selectRole;
+                        var user_role_lable = '';
+                        if (user_role === 'System Admin') {
+                            user_role_lable = '<span class="label label-primary">' + user_role + '</span>';
+                        } else if (user_role === 'MOH Admin') {
+                            user_role_lable = '<span class="label label-success">' + user_role + '</span>';
+                        } else if (user_role === 'Hospital Admin') {
+                            user_role_lable = '<span class="label label-info">' + user_role + '</span>';
+                        } else {
+
+                        }
+
+                        gridrow += '<tr>' + '<th style="font-weight: 500;">' + doc_data.nic + '</th>' +
+                            '<th style="font-weight: 500;">' + doc_data.name + '</th>' +
+                            '<th style="font-weight: 500;">' + doc_data.birthDay + '</th>' +
+                            '<th style="font-weight: 500;">' + doc_data.email + '</th>' +
+                            '<th style="font-weight: 500;">' + doc_data.telephone + '</th>' +
+                            '<th style="font-weight: 500;">' + user_role_lable + '</th>' +
+                            '<th style="font-weight: 500;"><button class="btn-warning btn btn-xs" type="button" style="width: 70px;" onclick="getUserData(\'' + doc.id + '\')">Edit</button> <span></span><button class="btn btn-danger btn btn-xs" type="submit" " onclick="deleteuser(\'' + doc.id + '\')">Delete</button></th>' +
+                            '</tr>';
+                        document.getElementById('user_role_body').innerHTML = gridrow;
+
+                    })
+                }
+            )
+        }
+
+
+
+        function adduser(event) {
+            var form = document.getElementById("myForm");
+            form.addEventListener("submit", function (event) {
+                if (form.checkValidity()) {
+                    event.preventDefault();
+
+                    var nic = getElementVal('nic');
+                    var selectRole = getElementVal('selectRole');
+                    var fname = getElementVal('fname');
+                    var lname = getElementVal('lname');
+                    var name = fname + ' ' + lname;
+                    console.log(name);
+                    var email = getElementVal('email');
+                    var birthDay = getElementVal('date_modified');
+                    var telephone = getElementVal('telephone');
+                    var password = getElementVal('password');
+
+
+                    firebase.auth().createUserWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+                            // Signed in 
+                            const user = userCredential.user;
+
+                            user.updateProfile({
+                                displayName: name,
+                                photoURL: 'img/profile_small.jpg'
+                            })
+                            // Create a Firestore instance
+                            var database = firebase.firestore();
+
+                            // Add a new user with a generated ID
+                            database.collection("user_roles").doc(user.uid).set({
+                                nic: nic,
+                                selectRole: selectRole,
+                                name: name,
+                                email: email,
+                                birthDay: birthDay,
+                                telephone: telephone,
+                                password: password
+                            })
+                                .then((docRef) => {
+                                    swal({
+                                        title: "Done!",
+                                        text: "User data saved successfully",
+                                        icon: "success",
+                                        button: "Ok",
+                                    }).then((value) => {
+                                        location.reload();
+                                    });
+                                })
+                                .catch((error) => {
+                                    swal("System error !", "Unable to save data ,Please contact system administator !", "error");
+                                });
+                            // ...
+                        })
+                        .catch((error) => {
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            // ..The email address is already in use by another account.
+                            swal("User error !", "The email address is already in use by another account!", "error");
+                        });
+                }
             });
         }
-    
+
+        function getUserData(userId) {
+ 
+            console.log(userId +"sssssssssssss");
+            database.collection("user_roles").doc(userId).get().then((doc) => {
+                if (doc.exists) {
+                    $("#uid").val(doc.id);
+                    $("#nic").val(doc.data().nic);
+                    $("#selectRole").val(doc.data().selectRole);
+                    const arr = doc.data().name.trim().split(/\s+/);
+                    $("#fname").val(arr[0]);
+                    $("#lname").val(arr[1]);
+                    $("#email").val(doc.data().email);
+                    $("#birthDay").val(doc.data().birthDay);
+                    $("#patient_name").val(doc.data().patient_name);
+                    $("#telephone").val(doc.data().telephone);
+                    $("#password").val(doc.data().password);
+                } else {
+                    console.log("No such user!");
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        }
+
+        function updateuser(event) {
+            var form = document.getElementById("myForm");
+            form.addEventListener("submit", function (event) {
+                if (form.checkValidity()) {
+                    event.preventDefault();
+                    var uid =  getElementVal('uid');
+                    var nic = getElementVal('nic');
+                    var selectRole = getElementVal('selectRole');
+                    var fname = getElementVal('fname');
+                    var lname = getElementVal('lname');
+                    var name = fname + ' ' + lname;
+                    console.log(name);
+                    var email = getElementVal('email');
+                    var birthDay = getElementVal('date_modified');
+                    var telephone = getElementVal('telephone');
+                    var password = getElementVal('password');
+
+
+                    // Create a Firestore instance
+                    var database = firebase.firestore();
+
+                    // Add a new user with a generated ID
+                    database.collection("user_roles").doc(uid).update({
+                        nic: nic,
+                        selectRole: selectRole,
+                        name: name,
+                        email: email,
+                        birthDay: birthDay,
+                        telephone: telephone,
+                        password: password
+                    })
+                        .then((docRef) => {
+                            swal({
+                                title: "Done!",
+                                text: "User data saved successfully",
+                                icon: "success",
+                                button: "Ok",
+                            }).then((value) => {
+                                location.reload();
+                            });
+                        })
+                        .catch((error) => {
+                            swal("System error !", "Unable to save data ,Please contact system administator !", "error");
+                        });
+
+                }
+            });
+        }
+
+        function searchUser() {
+            var gridrow = '';
+            var NIC = getElementVal("nicSearch");
+
+            database.collection("user_roles").where("nic", "==", NIC).get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, " => ", doc.data());
+                    var doc_data = doc.data();
+                    var user_role = doc_data.selectRole;
+                    var user_role_lable = '';
+                    if (user_role === 'System Admin') {
+                        user_role_lable = '<span class="label label-primary">' + user_role + '</span>';
+                    } else if (user_role === 'MOH Admin') {
+                        user_role_lable = '<span class="label label-success">' + user_role + '</span>';
+                    } else if (user_role === 'Hospital Admin') {
+                        user_role_lable = '<span class="label label-info">' + user_role + '</span>';
+                    } else {
+
+                    }
+
+                    gridrow += '<tr>' + '<th style="font-weight: 500;">' + doc_data.last_login + '</th>' +
+                        '<th style="font-weight: 500;">' + doc_data.name + '</th>' +
+                        '<th style="font-weight: 500;">' + doc_data.birthDay + '</th>' +
+                        '<th style="font-weight: 500;">' + doc_data.email + '</th>' +
+                        '<th style="font-weight: 500;">' + doc_data.telephone + '</th>' +
+                        '<th style="font-weight: 500;">' + user_role_lable + '</th>' +
+                        '<th style="font-weight: 500;"><button class="btn-warning btn btn-xs" type="button" style="width: 70px;" onclick="getUserData(\'' + doc.id + '\')">Edit</button> <span></span><button class="btn btn-danger btn btn-xs" type="submit" " onclick="deleteuser(\'' + doc.id + '\')">Delete</button></th>' +
+                        '</tr>';
+                    document.getElementById('user_role_body').innerHTML = gridrow;
+                });
+            });
+        }
+
+        function deleteuser(id) {
+            database.collection("user_roles").doc(id).delete().then(() => {
+                swal({
+                    title: "Done!",
+                    text: "User data saved successfully",
+                    icon: "success",
+                    button: "Ok",
+                }).then((value) => {
+                    location.reload();
+                });
+            }).catch((error) => {
+                swal("System error !", "Unable to save data ,Please contact system administator !", "error");
+            });
+        }
+
+
         const getElementVal = (id) => {
             return document.getElementById(id).value;
         }
-    
-    
-      </script>
-    
 
-<div id="wrapper">
+    </script>
 
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-                <li class="nav-header">
-                    <div class="dropdown profile-element">
-                        <img id="userImage" alt="image" class="rounded-circle" src="img/profile_small.jpg" />
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span id="nameSpan" class="block m-t-xs font-bold"></span>
-                                <span id="role" class="text-muted text-xs block"><b class="caret"></b></span>
-                        </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                            <li><a class="dropdown-item" href="contacts.html">Contacts</a></li>
-                            <li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li>
-                            <li class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="login.html">Logout</a></li>
-                        </ul>
-                    </div>
-                    <div class="logo-element">
-                        AJ
-                    </div>
-                </li>
-                <li>
-                    <a href="google_maps.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
-                        <li><a href="google_maps.html">Map</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Patient</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
-                        <li><a href="patient.html">Patient History</a></li>
-                        <li><a href="add_patient.html">Add Patient</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">MOH</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
-                        <li><a href="add_phi.html">ADD PHI</a></li>
-                        <li><a href="form_advanced.html">MOH JOB</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">User Managment</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
-                        <li><a href="user_add.html">ADD USER</a></li>
-                        <li><a href="user_edit.html">EDIT USER</a></li>
-                    </ul>
-                </li>
-            </ul>
 
-        </div>
-    </nav>
-
-    <div id="page-wrapper" class="gray-bg">
-        <div class="row border-bottom">
-            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" action="search_results.html">
-                        <div class="form-group">
-                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
-                        </div>
-                    </form>
-                </div>
-                    <ul class="nav navbar-top-links navbar-right">
-                        <li>
-                            <span class="m-r-sm text-muted welcome-message">Welcome to MOH Admin Page.</span>
+    <div id="wrapper">
+        <div id="wrapper">
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav metismenu" id="side-menu">
+                        <li class="nav-header">
+                            <div class="dropdown profile-element">
+                                <img id="userImage" alt="image" class="rounded-circle" src="img/profile_small.jpg" />
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <span id="nameSpan" class="block m-t-xs font-bold"></span>
+                                    <span id="role" class="text-muted text-xs block"><b class="caret"></b></span>
+                                </a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li><a class="dropdown-item" href="#">Contacts</a></li>
+                                    <li><a class="dropdown-item" href="#">Mailbox</a></li>
+                                    <li class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
+                                </ul>
+                            </div>
+                            <div class="logo-element">
+                                AJ
+                            </div>
                         </li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-messages">
-                                <li>
-                                    <div class="dropdown-messages-box">
-                                        <a class="dropdown-item float-left" href="profile.html">
-                                            <img alt="image" class="rounded-circle" src="img/a7.jpg">
-                                        </a>
-                                        <div class="media-body">
-                                            <small class="float-right">46h ago</small>
-                                            <strong>Sandeepa Dilshan</strong> started his job. <br>
-                                            <small class="text-muted">3 days ago at 7:58 pm - 03.21.2023</small>
+                        <li>
+                            <a href="google_maps.html"><i class="fa fa-th-large"></i> <span
+                                    class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="google_maps.html">Map</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Patient</span><span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="patient.html">Patient History</a></li>
+                                <li><a href="add_patient.html">Manage Patient</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">MOH</span><span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="add_phi.html">ADD PHI</a></li>
+                                <li><a href="phi_job_assign.html">PHI JOB</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">User Managment</span><span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="user_add.html">ADD USER</a></li>
+                                <li><a href="user_edit.html">EDIT USER</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+            <div id="page-wrapper" class="gray-bg">
+                <div class="row border-bottom">
+                    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                        <div class="navbar-header">
+                            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                    class="fa fa-bars"></i> </a>
+                            <form role="search" class="navbar-form-custom" action="search_results.html">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Search for something..." class="form-control"
+                                        name="top-search" id="top-search">
+                                </div>
+                            </form>
+                        </div>
+                        <ul class="nav navbar-top-links navbar-right">
+                            <li>
+                                <span class="m-r-sm text-muted welcome-message">Welcome to MOH Admin Page.</span>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-messages">
+                                    <li>
+                                        <div class="dropdown-messages-box">
+                                            <a class="dropdown-item float-left" href="profile.html">
+                                                <img alt="image" class="rounded-circle" src="img/a7.jpg">
+                                            </a>
+                                            <div class="media-body">
+                                                <small class="float-right">46h ago</small>
+                                                <strong>Sandeepa Dilshan</strong> started his job. <br>
+                                                <small class="text-muted">3 days ago at 7:58 pm - 03.21.2023</small>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <div class="dropdown-messages-box">
-                                        <a class="dropdown-item float-left" href="profile.html">
-                                            <img alt="image" class="rounded-circle" src="img/a4.jpg">
-                                        </a>
-                                        <div class="media-body ">
-                                            <small class="float-right text-navy">5h ago</small>
-                                            <strong>Madhawa Madusanka</strong> started his job. <br>
-                                            <small class="text-muted">4 days ago at 7:58 pm - 03.22.2023</small>
+                                    </li>
+                                    <li class="dropdown-divider"></li>
+                                    <li>
+                                        <div class="dropdown-messages-box">
+                                            <a class="dropdown-item float-left" href="profile.html">
+                                                <img alt="image" class="rounded-circle" src="img/a4.jpg">
+                                            </a>
+                                            <div class="media-body ">
+                                                <small class="float-right text-navy">5h ago</small>
+                                                <strong>Madhawa Madusanka</strong> started his job. <br>
+                                                <small class="text-muted">4 days ago at 7:58 pm - 03.22.2023</small>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <div class="text-center link-block">
+                                    </li>
+                                    <li class="dropdown-divider"></li>
+                                    <li>
+                                        <div class="text-center link-block">
+                                            <a href="mailbox.html" class="dropdown-item">
+                                                <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-alerts">
+                                    <li>
                                         <a href="mailbox.html" class="dropdown-item">
-                                            <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                                            <div>
+                                                <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                                <span class="float-right text-muted small">4 minutes ago</span>
+                                            </div>
                                         </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-alerts">
-                                <li>
-                                    <a href="mailbox.html" class="dropdown-item">
-                                        <div>
-                                            <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                                            <span class="float-right text-muted small">4 minutes ago</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <a href="profile.html" class="dropdown-item">
-                                        <div>
-                                            <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                            <span class="float-right text-muted small">12 minutes ago</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <a href="grid_options.html" class="dropdown-item">
-                                        <div>
-                                            <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                            <span class="float-right text-muted small">4 minutes ago</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <div class="text-center link-block">
-                                        <a href="notifications.html" class="dropdown-item">
-                                            <strong>See All Alerts</strong>
-                                            <i class="fa fa-angle-right"></i>
+                                    </li>
+                                    <li class="dropdown-divider"></li>
+                                    <li>
+                                        <a href="profile.html" class="dropdown-item">
+                                            <div>
+                                                <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                                <span class="float-right text-muted small">12 minutes ago</span>
+                                            </div>
                                         </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-        
-        
-                        <li>
-                            <a href="login.html">
-                                <i class="fa fa-sign-out"></i> Log out
-                            </a>
-                        </li>
-                    </ul>
-        
-                </nav>
-        </div>
-        <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-lg-10">
-                <h2>ADD USER</h2>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a>USER</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        <strong>ADD USER</strong>
-                    </li>
-                </ol>
-            </div>
-        </div>
+                                    </li>
+                                    <li class="dropdown-divider"></li>
+                                    <li>
+                                        <a href="grid_options.html" class="dropdown-item">
+                                            <div>
+                                                <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                                <span class="float-right text-muted small">4 minutes ago</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-divider"></li>
+                                    <li>
+                                        <div class="text-center link-block">
+                                            <a href="notifications.html" class="dropdown-item">
+                                                <strong>See All Alerts</strong>
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
 
-        <div class="wrapper wrapper-content animated fadeInRight">
 
-            <div class="ibox-content m-b-sm border-bottom">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-form-label" for="order_id">Select Role</label>
-                            <select id="selectRole" class="form-control" >
-                                <option>MOH Admin</option>
-                                <option>Hospital Admin</option>
-                                <option>System Admin</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
+                            <li>
+                                <a onclick="logout()">
+                                    <i class="fa fa-sign-out"></i> Log out
+                                </a>
+                            </li>
+                        </ul>
+
+                    </nav>
+                </div>
+                <div class="row wrapper border-bottom white-bg page-heading">
+                    <div class="col-lg-10">
+                        <h2>ADD USER</h2>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">Home</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a>USER</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <strong>ADD USER</strong>
+                            </li>
+                        </ol>
                     </div>
                 </div>
-            </div>
 
-            <div class="ibox-content m-b-sm border-bottom">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-form-label" for="date_added">Name</label>
-                            <input type="text" id="name" name="name" value="" placeholder="Name" class="form-control">
+                <div class="wrapper wrapper-content animated fadeInRight">
+
+                    <div class="ibox-content m-b-sm border-bottom">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="date_added">NIC</label>
+                                    <input type="text" id="nicSearch" name="nicSearch" value="" placeholder="NIC"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-form-label" for="email">Email</label>
-                            <input type="text" id="email" name="email" value="" placeholder="Email" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="dob">DOB</label>
-                            <div class="input-group date">
-                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input id="date_modified" type="text" class="form-control" value="03/06/2014">
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-white btn-sm" type="submit" id="clearButton">clear</button>
+                                <button class="btn btn-primary btn-sm" type="submit"
+                                    onclick="searchUser()">Search</button>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="telephone">Telephone</label>
-                            <input type="text" id="telephone" name="telephone" value="" placeholder="Telephone" class="form-control">
+                    <form class="m-t" role="form" id="myForm">
+                        <div class="ibox-content m-b-sm border-bottom">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="date_added">NIC</label>
+                                        <input type="text" id="nic" name="nic" value="" placeholder="NIC"
+                                            class="form-control" required="">
+                                    </div>
+                                    <input type="text" id="uid" hidden></input>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="order_id">Select Role</label>
+                                        <select id="selectRole" class="form-control" required="">
+                                            <option>MOH Admin</option>
+                                            <option>Hospital Admin</option>
+                                            <option>System Admin</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="date_added">First Name</label>
+                                        <input type="text" id="fname" name="fname" value="" placeholder="First Name"
+                                            class="form-control" required="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="date_added">Last Name</label>
+                                        <input type="text" id="lname" name="lname" value="" placeholder="Last Name"
+                                            class="form-control" required="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="email">Email</label>
+                                        <input type="text" id="email" name="email" value="" placeholder="Email"
+                                            class="form-control" required="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="dob">DOB</label>
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input
+                                                id="date_modified" type="text" class="form-control" value="03/06/2014"
+                                                required="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="telephone">Telephone</label>
+                                        <input type="text" id="telephone" name="telephone" value=""
+                                            placeholder="Telephone" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="password">Password</label>
+                                        <input type="text" id="password" name="password" value="" placeholder="Password"
+                                            class="form-control" required="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group row">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-white btn-sm" type="submit">Cancel</button>
+                                    <button class="btn btn-primary btn-sm" type="submit" onclick="adduser(event)">Save
+                                        changes</button>
+                                    <button class="btn btn-info btn-sm" type="submit" onclick="updateuser(event)">Update
+                                        changes</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="password">Password</label>
-                            <input type="text" id="password" name="password" value="" placeholder="Password" class="form-control">
+                    </form>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox">
+                                <div class="ibox-content">
+                                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+                                        <thead>
+                                            <tr>
+                                                <th>NIC</th>
+                                                <th>Name</th>
+                                                <th>DOB</th>
+                                                <th>email</th>
+                                                <th>Telephone</th>
+                                                <th>Role</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="user_role_body">
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="7">
+                                                    <ul class="pagination float-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="hr-line-dashed"></div>
-                <div class="form-group row">
-                    <div class="col-sm-4 col-sm-offset-2">
-                        <button class="btn btn-white btn-sm" type="submit">Cancel</button>
-                        <button class="btn btn-primary btn-sm" type="submit" onclick="adduser(event)">Save changes</button>
+                <div class="footer">
+                    <div class="float-right">
+                        10GB of <strong>250GB</strong> Free.
+                    </div>
+                    <div>
+                        <strong>Copyright</strong> ADJ Company &copy; 2023-2024
                     </div>
                 </div>
-            </div>
 
-        </div>
-        <div class="footer">
-            <div class="float-right">
-                10GB of <strong>250GB</strong> Free.
-            </div>
-            <div>
-                <strong>Copyright</strong> ADJ Company &copy; 2023-2024
             </div>
         </div>
 
-    </div>
-</div>
 
 
+        <!-- Mainly scripts -->
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-<!-- Mainly scripts -->
-<script src="js/jquery-3.1.1.min.js"></script>
-<script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <!-- Custom and plugin javascript -->
+        <script src="js/inspinia.js"></script>
+        <script src="js/plugins/pace/pace.min.js"></script>
 
-<!-- Custom and plugin javascript -->
-<script src="js/inspinia.js"></script>
-<script src="js/plugins/pace/pace.min.js"></script>
+        <!-- SUMMERNOTE -->
+        <script src="js/plugins/summernote/summernote-bs4.js"></script>
 
-<!-- SUMMERNOTE -->
-<script src="js/plugins/summernote/summernote-bs4.js"></script>
+        <!-- Data picker -->
+        <script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-<!-- Data picker -->
-<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+        <script>
+            $(document).ready(function () {
 
-<script>
-    $(document).ready(function(){
+                $('.summernote').summernote();
 
-        $('.summernote').summernote();
+                $('.input-group.date').datepicker({
+                    todayBtn: "linked",
+                    keyboardNavigation: false,
+                    forceParse: false,
+                    calendarWeeks: true,
+                    autoclose: true
+                });
 
-        $('.input-group.date').datepicker({
-            todayBtn: "linked",
-            keyboardNavigation: false,
-            forceParse: false,
-            calendarWeeks: true,
-            autoclose: true
-        });
+            });
 
-    });
-</script>
+            $("#clearButton").click(function (e) {
+                location.reload();
+            });
+        </script>
 
 </body>
 
 </html>
-

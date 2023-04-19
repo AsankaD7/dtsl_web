@@ -2,7 +2,10 @@
 var database = firebase.firestore();
 
 window.onload = function () {
+    loginState();
+}
 
+function loginState() {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             var uid = user.uid;
