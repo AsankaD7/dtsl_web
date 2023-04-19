@@ -6,27 +6,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MOH | Add Patient</title>
+<title>MOH | Job Mangement</title>
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
 <!-- FooTable -->
 <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
-
-<link href="css/plugins/summernote/summernote-bs4.css" rel="stylesheet">
-<link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
 <link href="css/animate.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 
-
+<link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
 </head>
 
 <body>
 
 	<div id="wrapper">
-
 		<nav class="navbar-default navbar-static-side" role="navigation">
 			<div class="sidebar-collapse">
 				<ul class="nav metismenu" id="side-menu">
@@ -43,7 +40,7 @@
 								<li><a class="dropdown-item" href="contacts.html">Contacts</a></li>
 								<li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li>
 								<li class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="#" id="logout">Logout</a></li>
+								<li><a class="dropdown-item" href="login.html">Logout</a></li>
 							</ul>
 						</div>
 						<div class="logo-element">AJ</div>
@@ -65,11 +62,16 @@
 							<li><a href="add_phi.html">ADD PHI</a></li>
 							<li><a href="form_advanced.html">MOH JOB</a></li>
 						</ul></li>
+					<li><a href="#"><i class="fa fa-flask"></i> <span
+							class="nav-label">User Managment</span><span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+							<li><a href="user_add.html">ADD USER</a></li>
+							<li><a href="user_view.html">VIEW USER</a></li>
+						</ul></li>
 				</ul>
 
 			</div>
 		</nav>
-
 		<div id="page-wrapper" class="gray-bg">
 			<div class="row border-bottom">
 				<nav class="navbar navbar-static-top" role="navigation"
@@ -174,18 +176,17 @@
 			</div>
 			<div class="row wrapper border-bottom white-bg page-heading">
 				<div class="col-lg-10">
-					<h2>ADD Patient</h2>
+					<h2>MOH | Job Mangement</h2>
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-						<li class="breadcrumb-item"><a>Patient</a></li>
-						<li class="breadcrumb-item active"><strong>ADD
-								Patient</strong></li>
+						<li class="breadcrumb-item"><a>JOB</a></li>
+						<li class="breadcrumb-item active"><strong>View</strong></li>
 					</ol>
 				</div>
+				<div class="col-lg-2"></div>
 			</div>
 
 			<div class="wrapper wrapper-content animated fadeInRight">
-
 				<div class="ibox-content m-b-sm border-bottom">
 					<div class="row">
 						<div id="div_patient_district" class="col-sm-4">
@@ -270,26 +271,29 @@
 						</div>
 					</div>
 				</div>
-
 				<div class="ibox-content m-b-sm border-bottom">
 					<div class="row">
+						<div id="div_patient_id" class="col-sm-4">
+							<div class="form-group">
+								<label class="col-form-label" for="name">Patient ID</label> <input
+									type="text" id="patient_id" name="name" value=""
+									placeholder="Patient ID" class="form-control">
+							</div>
+						</div>
 						<div id="div_patient_nic" class="col-sm-4">
 							<div class="form-group">
 								<label class="col-form-label" for="name">NIC</label> <input
 									type="text" id="patient_nic" name="name" value=""
-									placeholder="NIC" class="form-control"> <input
-									type="hidden" id="primary_key" name="name" value=""
-									placeholder="primary_key" class="form-control">
+									placeholder="NIC" class="form-control">
 							</div>
 						</div>
-						<div id="div_patient_name" class="col-sm-8">
+						<div id="div_patient_name" class="col-sm-4">
 							<div class="form-group">
 								<label class="col-form-label" for="date_added">Name</label> <input
 									type="text" id="patient_name" name="name" value=""
 									placeholder="Name" class="form-control">
 							</div>
 						</div>
-
 					</div>
 					<div class="row">
 						<div id="div_patient_gender" class="col-sm-4">
@@ -369,6 +373,13 @@
 								</div>
 							</div>
 						</div>
+						<div id="div_patient_phi_officer" class="col-sm-4">
+							<div class="form-group">
+								<label class="col-form-label" for="order_id">Select
+									PHI Officer</label> <select id="patient_phi_officer" class="form-control">
+								</select>
+							</div>
+						</div>
 					</div>
 					<div class="row">
 						<div id="div_patient_disease_note" class="col-sm-12">
@@ -396,44 +407,60 @@
 							<button class="btn btn-white btn-sm" type="button"
 								id="clearButton">Cancel</button>
 							<button class="btn btn-primary btn-sm" type="button"
-								id="submitButton">Save changes</button>
+								id="submitButton">Assign PHI</button>
 							<button class="btn btn-info btn-sm" type="button"
-								id="updateButton">Update changes</button>
+								id="updateButton">Update PHI</button>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="ibox">
-								<div class="ibox-content">
-									<table class="footable table table-stripped toggle-arrow-tiny"
-										data-page-size="15">
-										<thead>
-											<tr class="info">
-												<th>Patient NIC</th>
-												<th>Patient Name</th>
-												<th>MOH Office</th>
-												<th>Disease</th>
-												<th>Identified Date</th>
-												<th>Action</th>
-											</tr>
-										</thead>
-										<tbody id="patient_table_body">
+				</div>
 
-										</tbody>
-										<tfoot>
-											<tr>
-												<td colspan="7">
-													<ul class="pagination float-right"></ul>
-												</td>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="ibox">
+							<div class="ibox-content">
+								<table class="footable table table-stripped toggle-arrow-tiny"
+									data-page-size="15">
+									<thead>
+										<tr>
+											<th>Patient ID</th>
+											<th>NIC</th>
+											<th>Name</th>
+											<th>DOB</th>
+											<th>Address</th>
+											<th>Disease</th>
+											<th>Tel.</th>
+											<th>Status</th>
+											<th class="text-right">Action</th>
+										</tr>
+									</thead>
+									<tbody id="patient_moh_jobs_BODY">
+
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colspan="7">
+												<ul class="pagination float-right"></ul>
+											</td>
+										</tr>
+									</tfoot>
+								</table>
+
 							</div>
 						</div>
 					</div>
 				</div>
+
+
 			</div>
+			<div class="footer">
+				<div class="float-right">
+					10GB of <strong>250GB</strong> Free.
+				</div>
+				<div>
+					<strong>Copyright</strong> ADJ Company &copy; 2023-2024
+				</div>
+			</div>
+
 		</div>
 	</div>
 
@@ -450,21 +477,27 @@
 	<script src="js/inspinia.js"></script>
 	<script src="js/plugins/pace/pace.min.js"></script>
 
-	<!-- SUMMERNOTE -->
-	<script src="js/plugins/summernote/summernote-bs4.js"></script>
-
 	<!-- Data picker -->
 	<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
 	<!-- FooTable -->
 	<script src="js/plugins/footable/footable.all.min.js"></script>
 
-	<script type="text/javascript">
+	<!-- Page-Level Scripts -->
+	<script>
 		$(document).ready(function() {
 
-			$('.summernote').summernote();
+			$('.footable').footable();
 
-			$('.input-group.date').datepicker({
+			$('#date_added').datepicker({
+				todayBtn : "linked",
+				keyboardNavigation : false,
+				forceParse : false,
+				calendarWeeks : true,
+				autoclose : true
+			});
+
+			$('#date_modified').datepicker({
 				todayBtn : "linked",
 				keyboardNavigation : false,
 				forceParse : false,
@@ -474,26 +507,128 @@
 
 		});
 	</script>
-
 	<script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
 	<script
 		src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
 	<script src="./config/config.js"></script>
 	<script src="./js/sweetalert.min.js"></script>
-	<script type="module">
+	<script type="module">   
 
 window.onload = function() {
     createPatientGrid();
+	loadPhiOfficers();
 };
 
 var database = firebase.firestore();
+
+function loadPhiOfficers() {
+    var gridrow = '';
+
+    const phiOfficersList = firebase.firestore().collection('phiTable');
+    phiOfficersList.onSnapshot(
+        querySnapshot => {
+            querySnapshot.forEach((doc) => {
+                var doc_data = doc.data();
+                console.log(doc_data)
+
+				$('#patient_phi_officer').append($('<option>', { 
+       				 value: doc.id,
+        			 text : doc_data.name +" - "+ doc_data.district
+   				 }));
+            })
+        }
+    )
+}
+
+$("#submitButton").click(function(e) {
+
+    if (validatePatient()) {
+		var m = new Date();
+		var phi_job_key =m.getUTCFullYear() +""+ (m.getUTCMonth()+1) +""+ m.getUTCDate() + "" + m.getUTCHours() + "" + m.getUTCMinutes() + "" + m.getUTCSeconds()+"-"+ generateString(3);
+
+       database.collection("patient_data").doc($("#patient_id").val().trim()).update({
+				patient_phi_status: $("#Assigned").val().trim()
+            });
+
+		database.collection("phiJobs").doc(phi_job_key).set({
+				phi_id : $("#patient_phi_officer").val().trim(),
+				patient_id: $("#patient_id").val().trim(),
+                patient_nic: $("#patient_nic").val().trim(),
+				phi_job_status: "Assigned",
+				phi_notes: "",
+				phi_job_completed_date: ""
+            })
+
+            .then((docRef) => {
+                swal({
+                    title: "Done!",
+                    text: "PHI assigned successfully",
+                    icon: "success",
+                    button: "Ok",
+                }).then((value) => {
+                    location.reload();
+                });
+            })
+            .catch((error) => {
+                swal("System error !", "Unable to assign PHI ,Please contact system administator !", "error");
+
+            });
+
+    }
+});
+
+$("#clearButton").click(function(e) {
+    location.reload();
+});
+
+$("#patient_phi_officer").keyup(function() {
+    if (!($("#patient_phi_officer").val() === '')) {
+        $("#div_patient_phi_officer").attr('class',  'col-sm-4');
+    }
+});
+
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+
+function generateString(length) {
+    let result = ' ';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
+
+function validatePatient() {
+
+    var hasError = true;
+
+if ($("#patient_id").val() === '') {
+        $("#div_patient_id").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+
+    if ($("#patient_nic").val() === '') {
+        $("#div_patient_nic").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+
+if ($("#patient_phi_officer").val() === '') {
+        $("#div_patient_phi_officer").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+
+    return hasError;
+
+}
 
 async function createPatientGrid() {
     var gridrow = '';
 
     const patientJobRef = firebase.firestore().collection('patient_data');
-    patientJobRef.onSnapshot(
+	patientJobRef.onSnapshot(
         querySnapshot => {
             querySnapshot.forEach((doc) => {
                 var doc_data = doc.data();
@@ -513,261 +648,46 @@ patient_disease_lable = '<span class="label label-success">'+patient_disease+'</
 patient_disease_lable = '<span class="label label-info">'+patient_disease+'</span>';
 }
 
-                gridrow += '<tr>' + '<th style="font-weight: 500;">' + doc_data.patient_nic + '</th>' +
-                    '<th style="font-weight: 500;">' + doc_data.patient_name + '</th>' +
-                    '<th style="font-weight: 500;">' + doc_data.patient_moh + '</th>' +
-                    '<th style="font-weight: 500;">' + patient_disease_lable + '</th>' +
-					'<th style="font-weight: 500;">' + doc_data.patient_disease_date + '</th>' +
-                    '<th style="font-weight: 500;"><button class="btn-info btn btn-xs" type="button" style="width: 70px;" onclick="getPatientData(\'' + doc.id + '\')">Edit</button></th>' +
-                    '</tr>';
-                document.getElementById('patient_table_body').innerHTML = gridrow;
+var patient_phi_status = doc_data.patient_phi_status;
+var patient_phi_status_lable ='';
+
+if(patient_phi_status === 'Not Assigned'){
+patient_phi_status_lable = '<span class="label label-danger">'+patient_phi_status+'</span>';
+}else if(patient_phi_status === 'Pending'){
+patient_phi_status_lable = '<span class="label label-warning">'+patient_phi_status+'</span>';
+}else if(patient_phi_status === 'Completed'){
+patient_phi_status_lable = '<span class="label label-success">'+patient_phi_status+'</span>';
+}else{
+patient_phi_status_lable = '<span class="label label-primary">'+patient_phi_status+'</span>';
+}
+
+
+							gridrow +='<tr>' +
+											'<td>' + doc.id + '</td>' +
+											'<td>' + doc_data.patient_nic + '</td>' +
+											'<td>' + doc_data.patient_name + '</td>' +
+											'<td>' + doc_data.patient_dob + '</td>' +												
+											'<td>' + doc_data.patient_address + '</td>' +
+											'<td>' + patient_disease_lable + ' </td>' +
+											'<td>' + doc_data.patient_telephone1 + '</td>' +
+											'<td>'+patient_phi_status_lable+'</td>' +
+											'<td class="text-right">' +
+												'<div class="btn-group">' +
+													'<button class="btn-info btn btn-xs" onclick="getPatientData(\'' + doc.id + '\')">Edit</button>' +
+												'</div>' +
+											'</td>' +
+										'</tr>';
+                
+                document.getElementById('patient_moh_jobs_BODY').innerHTML = gridrow;
 
             })
         }
     )
 }
-
-$("#submitButton").click(function(e) {
-
-    if (validatePatient()) {
-
-		var m = new Date();
-		var dateString = m.getUTCFullYear() +""+ (m.getUTCMonth()+1) +""+ m.getUTCDate() + "" + m.getUTCHours() + "" + m.getUTCMinutes() + "" + m.getUTCSeconds();
-
-		var primary_key = $("#patient_nic").val().trim() +"-"+ dateString;
-
-        database.collection("patient_data").doc(primary_key).set({
-                patient_nic: $("#patient_nic").val().trim(),
-				patient_phi_status: "Not Assigned",
- 				patient_district: $("#patient_district").val().trim(),
-                patient_moh: $("#patient_moh").val().trim(),
-                patient_hospital: $("#patient_hospital").val().trim(),
-                patient_name: $("#patient_name").val().trim(),
-                patient_gender: $("#patient_gender").val().trim(),
-                patient_dob: $("#patient_dob").val().trim(),
-                patient_age: $("#patient_age").val().trim(),
-                patient_telephone1: $("#patient_telephone1").val().trim(),
-                patient_telephone2: $("#patient_telephone2").val().trim(),
-                patient_address: $("#patient_address").val().trim(),
-                patient_disease: $("#patient_disease").val().trim(),
-				patient_disease_date: $("#patient_disease_date").val().trim(),
-                patient_disease_note: $("#patient_disease_note").val().trim()
-            })
-
-            .then((docRef) => {
-                swal({
-                    title: "Done!",
-                    text: "Patient data saved successfully",
-                    icon: "success",
-                    button: "Ok",
-                }).then((value) => {
-                    location.reload();
-                });
-            })
-            .catch((error) => {
-                swal("System error !", "Unable to save data ,Please contact system administator !", "error");
-
-            });
-
-    }
-});
-
-$("#updateButton").click(function(e) {
-
-    if (validatePatient()) {
-
-        database.collection("patient_data").doc($("#primary_key").val().trim()).update({
-				patient_nic: $("#patient_nic").val().trim(),
-                patient_district: $("#patient_district").val().trim(),
-                patient_moh: $("#patient_moh").val().trim(),
-                patient_hospital: $("#patient_hospital").val().trim(),
-                patient_name: $("#patient_name").val().trim(),
-                patient_gender: $("#patient_gender").val().trim(),
-                patient_dob: $("#patient_dob").val().trim(),
-                patient_age: $("#patient_age").val().trim(),
-                patient_telephone1: $("#patient_telephone1").val().trim(),
-                patient_telephone2: $("#patient_telephone2").val().trim(),
-                patient_address: $("#patient_address").val().trim(),
-                patient_disease: $("#patient_disease").val().trim(),
-				patient_disease_date: $("#patient_disease_date").val().trim(),
-                patient_disease_note: $("#patient_disease_note").val().trim()
-            })
-
-            .then((docRef) => {
-                swal({
-                    title: "Done!",
-                    text: "Patient data updated successfully",
-                    icon: "success",
-                    button: "Ok",
-                }).then((value) => {
-                    location.reload();
-                });
-            })
-            .catch((error) => {
-                swal("System error !", "Unable to update data ,Please contact system administator !", "error");
-
-            });
-
-    }
-});
-
-$("#clearButton").click(function(e) {
-    location.reload();
-});
-
-$("#patient_district").keyup(function() {
-    if (!($("#patient_district").val() === '')) {
-        $("#div_patient_district").attr('class', 'col-sm-4');
-    }
-});
-
-$("#patient_moh").keyup(function() {
-    if (!($("#patient_moh").val() === '')) {
-        $("#div_patient_moh").attr('class', 'col-sm-4');
-    }
-});
-
-$("#patient_hospital").keyup(function() {
-    if (!($("#patient_hospital").val() === '')) {
-        $("#div_patient_hospital").attr('class', 'col-sm-4');
-    }
-});
-
-$("#patient_nic").keyup(function() {
-    if (!($("#patient_nic").val() === '')) {
-        $("#div_patient_nic").attr('class', 'col-sm-4');
-    }
-});
-
-$("#patient_name").keyup(function() {
-    if (!($("#patient_name").val() === '')) {
-        $("#div_patient_name").attr('class', 'col-sm-8');
-    }
-});
-
-$("#patient_dob").keyup(function() {
-    if (!($("#patient_dob").val() === '')) {
-        $("#div_patient_dob").attr('class', 'col-sm-4');
-    }
-});
-
-$("#patient_age").keyup(function() {
-    if (!($("#patient_age").val() === '')) {
-        $("#div_patient_age").attr('class', 'col-sm-4');
-    }
-});
-
-$("#patient_telephone1").keyup(function() {
-    if (!($("#patient_telephone1").val() === '')) {
-        $("#div_patient_telephone1").attr('class', 'col-sm-4');
-    }
-});
-
-$("#patient_address").keyup(function() {
-    if (!($("#patient_address").val() === '')) {
-        $("#div_patient_address").attr('class', 'col-sm-4');
-    }
-});
-
-$("#patient_disease").keyup(function() {
-    if (!($("#patient_disease").val() === '')) {
-        $("#div_patient_disease").attr('class',  'col-sm-4');
-    }
-});
-
-$("#patient_disease_date").keyup(function() {
-    if (!($("#patient_disease_date").val() === '')) {
-        $("#div_patient_disease_date").attr('class',  'col-sm-4');
-    }
-});
-
-$("#patient_disease_note").keyup(function() {
-    if (!($("#patient_disease_note").val() === '')) {
-        $("#div_patient_disease_note").attr('class', 'col-sm-12');
-    }
-});
-
-
-
-function validatePatient() {
-
-    var hasError = true;
-    if ($("#patient_district").val() === '') {
-        $("#div_patient_district").attr('class', 'col-sm-4 has-error');
-        hasError = false;
-    }
-    if ($("#patient_moh").val() === '') {
-        $("#div_patient_moh").attr('class', 'col-sm-4 has-error');
-        hasError = false;
-    }
-    if ($("#patient_hospital").val() === '') {
-        $("#div_patient_hospital").attr('class', 'col-sm-4 has-error');
-        hasError = false;
-    }
-
-    if ($("#patient_nic").val() === '') {
-        $("#div_patient_nic").attr('class', 'col-sm-4 has-error');
-        hasError = false;
-    }
-    if ($("#patient_name").val() === '') {
-        $("#div_patient_name").attr('class', 'col-sm-8 has-error');
-        hasError = false;
-    }
-    if ($("#patient_dob").val() === '') {
-        $("#div_patient_dob").attr('class', 'col-sm-4 has-error');
-        hasError = false;
-    }
-    if ($("#patient_age").val() === '') {
-        $("#div_patient_age").attr('class', 'col-sm-4 has-error');
-        hasError = false;
-    }
-
-    if ($("#patient_telephone1").val() === '') {
-        $("#div_patient_telephone1").attr('class', 'col-sm-4 has-error');
-        hasError = false;
-    }
-
-if ($("#patient_address").val() === '') {
-        $("#div_patient_address").attr('class', 'col-sm-4 has-error');
-        hasError = false;
-    }
-
-    if ($("#patient_disease").val() === '') {
-        $("#div_patient_disease").attr('class', 'col-sm-4 has-error');
-        hasError = false;
-    }
-
-if ($("#patient_disease_date").val() === '') {
-        $("#div_patient_disease_date").attr('class', 'col-sm-4 has-error');
-        hasError = false;
-    }
-
-    if ($("#patient_disease_note").val() === '') {
-        $("#div_patient_disease_note").attr('class', 'col-sm-12 has-error');
-        hasError = false;
-    }
-
-    return hasError;
-
-}
-
-
-$('#logout').on('click', function(e) {
-    e.preventDefault();
-    signOut(auth).then(() => {
-        // Sign-out successful.
-        window.location.href = "login.html";
-    }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-        alert(errorMessage)
-    });
-});
-
+    
 </script>
 
-	<script type="text/javascript">
+<script type="text/javascript">
 
 function getPatientData(primary_key) {
 
@@ -775,7 +695,7 @@ function getPatientData(primary_key) {
 
     database.collection("patient_data").doc(primary_key).get().then((doc) => {
         if (doc.exists) {
-        	$("#primary_key").val(doc.id);
+        	$("#patient_id").val(doc.id);
             $("#patient_nic").val(doc.data().patient_nic);
             $("#patient_district").val(doc.data().patient_district);
             $("#patient_moh").val(doc.data().patient_moh);
@@ -790,6 +710,10 @@ function getPatientData(primary_key) {
             $("#patient_disease").val(doc.data().patient_disease);
             $("#patient_disease_date").val(doc.data().patient_disease_date);
             $("#patient_disease_note").val(doc.data().patient_disease_note);
+            
+            $("#div_patient_id").attr('class',  'col-sm-4');
+            $("#div_patient_nic").attr('class',  'col-sm-4');
+            $("#div_patient_phi_officer").attr('class',  'col-sm-4');
         } else {
             console.log("No such user!");
         }
@@ -803,4 +727,3 @@ function getPatientData(primary_key) {
 </body>
 
 </html>
-

@@ -185,7 +185,7 @@
             </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>Disease Locations</h2>
+                    <h2>Google Maps</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="index.html">Home</a>
@@ -194,7 +194,7 @@
                             <a>Map</a>
                         </li>
                         <li class="breadcrumb-item active">
-                            <strong>Disease Locations</strong>
+                            <strong>Google Maps</strong>
                         </li>
                     </ol>
                 </div>
@@ -215,12 +215,17 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="ibox">
+                        <div class="ibox ">
                             <div class="ibox-title">
-                                <h5>Mapping disease locations </h5>
+                                <h5>Google Maps Basic example</h5>
                             </div>
                             <div class="ibox-content">
-                                <div class="google-map" id="map1" style="height: 600px;"></div>
+                                <p>
+                                    With google maps <a
+                                        href="https://developers.google.com/maps/documentation/javascript/reference#MapOptions">API</a>
+                                    You can easy customize your map.
+                                </p>
+                                <div class="google-map" id="map1"></div>
                             </div>
                         </div>
                     </div>
@@ -251,64 +256,38 @@
     <script src="js/plugins/pace/pace.min.js"></script>
 
     <script type="text/javascript">
-
-        // Create a Firestore instance
-        var database = firebase.firestore();
-
         // When the window has finished loading google map
         google.maps.event.addDomListener(window, 'load', initMap);
 
         function initMap() {
-            var triangleCoords = [];
             var map = new google.maps.Map(document.getElementById('map1'), {
                 zoom: 09,
                 center: { lat: 35.6896, lng: 139.7006 }
             });
 
-
-
-            database.collection("disease_locations").get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
-
-                    new google.maps.Marker({
-                        position: { lat: parseFloat(doc.data().lat), lng: parseFloat(doc.data().lng) },
-                        map: map,
-                        title: doc.data().disease
-                    });
-
-                    
-                    triangleCoords.push({ lat: parseFloat(doc.data().lat), lng: parseFloat(doc.data().lng) });
-                });
+            var marker1 = new google.maps.Marker({
+                position: { lat: 35.6896, lng: 139.7006 },
+                map: map,
+                title: 'Marker 1'
             });
 
-            // var marker1 = new google.maps.Marker({
-            //     position: { lat: 35.6896, lng: 139.7006 },
-            //     map: map,
-            //     title: 'Marker 1'
-            // });
+            var marker2 = new google.maps.Marker({
+                position: { lat: 35.4660, lng: 139.6221 },
+                map: map,
+                title: 'Marker 2'
+            });
 
-            // var marker2 = new google.maps.Marker({
-            //     position: { lat: 35.4660, lng: 139.6221 },
-            //     map: map,
-            //     title: 'Marker 2'
-            // });
+            var marker3 = new google.maps.Marker({
+                position: { lat: 35.4393, lng: 139.3643 },
+                map: map,
+                title: 'Marker 3'
+            });
 
-            // var marker3 = new google.maps.Marker({
-            //     position: { lat: 35.4393, lng: 139.3643 },
-            //     map: map,
-            //     title: 'Marker 3'
-            // });
-
-            // var triangleCoords = [
-            //     { lat: 35.6896, lng: 139.7006 },
-            //     { lat: 35.4660, lng: 139.6221 },
-            //     { lat: 35.6393, lng: 139.3643 }
-            // ];
-
-            console.log(triangleCoords);
-
+            var triangleCoords = [
+                { lat: 35.6896, lng: 139.7006 },
+                { lat: 35.4660, lng: 139.6221 },
+                { lat: 35.4393, lng: 139.3643 }
+            ];
 
             var triangle = new google.maps.Polygon({
                 paths: triangleCoords,
