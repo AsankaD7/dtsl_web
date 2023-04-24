@@ -302,8 +302,12 @@
 					<div class="row">
 						<div id="div_patient_id" class="col-sm-4">
 							<div class="form-group">
-								<label class="col-form-label" for="name">Patient ID</label> <input type="text"
-									id="patient_id" name="name" value="" placeholder="Patient ID" class="form-control">
+								<label class="col-form-label" for="name">Patient ID</label> <input
+									type="text" id="patient_id" name="name" value=""
+									placeholder="Patient ID" class="form-control">
+									<input
+									type="hidden" id="patient_phi_job_id" name="name" value=""
+									placeholder="PHI Job ID" class="form-control">
 							</div>
 						</div>
 						<div id="div_patient_nic" class="col-sm-4">
@@ -333,8 +337,9 @@
 							<div class="form-group">
 								<label class="col-form-label" for="dob">DOB</label>
 								<div class="input-group date">
-									<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input
-										id="patient_dob" type="text" class="form-control" value="03/06/2014">
+									<span class="input-group-addon"><i
+										class="fa fa-calendar"></i></span><input id="patient_dob" type="text"
+										class="form-control" value="04/25/2023">
 								</div>
 							</div>
 						</div>
@@ -364,12 +369,14 @@
 						</div>
 						<div id="div_patient_address" class="col-sm-4">
 							<div class="form-group">
-								<label class="col-form-label" for="address">Address</label>
-								<textarea class="form-control" id="patient_address" rows="4"></textarea>
+								<label class="col-form-label" for="address">Address</label> <input
+									type="text" id="patient_address" name="telephone" value=""
+									placeholder="Address" class="form-control">
 							</div>
 						</div>
 					</div>
-					<hr>
+				</div>
+				<div class="ibox-content m-b-sm border-bottom">
 					<div class="row">
 						<div id="div_patient_disease" class="col-sm-4">
 							<div class="form-group">
@@ -389,15 +396,16 @@
 								<label class="col-form-label" for="dob">Disease
 									Identified Date</label>
 								<div class="input-group date">
-									<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input
-										id="patient_disease_date" type="text" class="form-control" value="03/06/2014">
+									<span class="input-group-addon"><i
+										class="fa fa-calendar"></i></span><input id="patient_disease_date"
+										type="text" class="form-control" value="04/25/2023">
 								</div>
 							</div>
 						</div>
 						<div id="div_patient_phi_officer" class="col-sm-4">
 							<div class="form-group">
-								<label class="col-form-label" for="order_id">Select
-									PHI Officer</label> <select id="patient_phi_officer" class="form-control">
+								<label class="col-form-label" for="order_id">Select PHI
+									Officer</label> <select id="patient_phi_officer" class="form-control">
 								</select>
 							</div>
 						</div>
@@ -405,28 +413,28 @@
 					<div class="row">
 						<div id="div_patient_disease_note" class="col-sm-12">
 							<div class="form-group">
-								<label class="col-form-label" for="note">Note</label>
-								<textarea class="form-control" id="patient_disease_note" rows="4"></textarea>
-								<!-- <div class="summernote">
-									<h3>Basic history</h3>
-									As a medical student, student nurse, physician associate, or
-									allied health professional you learn the art of taking a formal
-									history, examining a patient, and interpreting investigations.
-									The history is considered the most important aspect of the
-									interaction between patient and doctor. It is the cornerstone
-									of the doctor-patient relationship and relies on good
-									communication skills. Most information about a patient can be
-									determined by the history alone. <br />
- -->
+								<label class="col-form-label" for="note">Hospital Note</label>
+								<textarea class="form-control" id="patient_disease_note"
+									rows="4"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div id="div_patient_phi_notes" class="col-sm-12">
+							<div class="form-group">
+								<label class="col-form-label" for="note">PHI Note</label>
+								<textarea class="form-control" id="patient_phi_notes"
+									rows="4"></textarea>
 							</div>
 						</div>
 					</div>
 					<div class="hr-line-dashed"></div>
 					<div class="form-group row">
 						<div class="col-sm-4 col-sm-offset-2">
-							<button class="btn btn-white btn-sm" type="button" id="clearButton">Cancel</button>
-							<button class="btn btn-primary btn-sm" type="button" id="submitButton">Assign PHI</button>
-							<button class="btn btn-info btn-sm" type="button" id="updateButton">Update PHI</button>
+							<button class="btn btn-white btn-sm" type="button"
+								id="clearButton">Cancel</button>
+							<button class="btn btn-primary btn-sm" type="button"
+								id="submitButton">Assign/Reassign PHI</button>
 						</div>
 					</div>
 				</div>
@@ -435,21 +443,22 @@
 					<div class="col-lg-12">
 						<div class="ibox">
 							<div class="ibox-content">
-								<table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+								<table id="patient_moh_jobs_table" class="footable table table-stripped toggle-arrow-tiny"
+									data-page-size="15">
 									<thead>
 										<tr>
 											<th>Patient ID</th>
 											<th>NIC</th>
 											<th>Name</th>
-											<th>DOB</th>
-											<th>Address</th>
+											<th>Address</th>											
+											<th>Date</th>
 											<th>Disease</th>
 											<th>Tel.</th>
 											<th>Status</th>
 											<th class="text-right">Action</th>
 										</tr>
 									</thead>
-									<tbody id="patient_moh_jobs_BODY">
+									<tbody id="patient_moh_jobs_table_body">
 
 									</tbody>
 									<tfoot>
@@ -482,7 +491,7 @@
 
 
 
-	<!-- Mainly scripts -->
+	<!-- Mainly scripts --> 
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/popper.min.js"></script>
 	<script src="js/bootstrap.js"></script>
@@ -523,218 +532,342 @@
 
 		});
 	</script>
+	<script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+	<script
+		src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+	<script src="./config/config.js"></script>
+	<script src="./js/sweetalert.min.js"></script>
+	<script type="module">   
+window.onload = function() {
+    createPatientGrid();
+    loadPhiOfficers();
 
-	<script type="module">
+    $("#patient_id").prop('readonly', true);
+    $("#patient_nic").prop('readonly', true);
+    $("#patient_district").attr("disabled", true);
+    $("#patient_moh").attr("disabled", true);
+    $("#patient_hospital").attr("disabled", true);
+    $("#patient_name").prop('readonly', true);
+    $("#patient_gender").attr("disabled", true);
+    $("#patient_dob").prop('readonly', true);
+    $("#patient_age").prop('readonly', true);
+    $("#patient_telephone1").prop('readonly', true);
+    $("#patient_telephone2").prop('readonly', true);
+    $("#patient_address").prop('readonly', true);
+    $("#patient_disease").attr("disabled", true);
+    $("#patient_disease_date").prop('readonly', true);
+    $("#patient_disease_note").prop('readonly', true);
+    $("#patient_phi_notes").prop('readonly', true);
 
-		window.onload = function () {
-			loginState();
-			createPatientGrid();
-			loadPhiOfficers();
-		};
+};
 
-		var database = firebase.firestore();
+var database = firebase.firestore();
 
-		function loadPhiOfficers() {
-			var gridrow = '';
+function loadPhiOfficers() {
+    var gridrow = '';
 
-			const phiOfficersList = firebase.firestore().collection('phiTable');
-			phiOfficersList.onSnapshot(
-				querySnapshot => {
-					querySnapshot.forEach((doc) => {
-						var doc_data = doc.data();
-						console.log(doc_data)
+    const phiOfficersList = firebase.firestore().collection('phiTable');
+    phiOfficersList.onSnapshot(
+        querySnapshot => {
+            querySnapshot.forEach((doc) => {
+                var doc_data = doc.data();
+                $('#patient_phi_officer').append($('<option>', {
+                    value: doc.id,
+                    text: doc_data.name + " - " + doc_data.district
+                }));
+            })
+        }
+    )
+}
 
-						$('#patient_phi_officer').append($('<option>', {
-							value: doc.id,
-							text: doc_data.name + " - " + doc_data.district
-						}));
-					})
-				}
-			)
-		}
+$("#submitButton").click(function(e) {
 
-		$("#submitButton").click(function (e) {
+    if (validatePatient()) {
 
-			if (validatePatient()) {
-				var m = new Date();
-				var phi_job_key = m.getUTCFullYear() + "" + (m.getUTCMonth() + 1) + "" + m.getUTCDate() + "" + m.getUTCHours() + "" + m.getUTCMinutes() + "" + m.getUTCSeconds() + "-" + generateString(3);
+        if ($("#patient_phi_job_id").val() === '') {
 
-				database.collection("patient_data").doc($("#patient_id").val().trim()).update({
-					patient_phi_status: $("#Assigned").val().trim()
-				});
+            var m = new Date();
+            var phi_job_key = m.getUTCFullYear() + "" + (m.getUTCMonth() + 1) + "" + m.getUTCDate() + "" + m.getUTCHours() + "" + m.getUTCMinutes() + "" + m.getUTCSeconds() + "-" + generateString(3);
 
-				database.collection("phiJobs").doc(phi_job_key).set({
-					phi_id: $("#patient_phi_officer").val().trim(),
-					patient_id: $("#patient_id").val().trim(),
-					patient_nic: $("#patient_nic").val().trim(),
-					phi_job_status: "Assigned",
-					phi_notes: "",
-					phi_job_completed_date: ""
-				})
+            database.collection("patient_data").doc($("#patient_id").val().trim()).update({
+                patient_disease_note: $("#patient_disease_note").val().trim(),
+                patient_phi_status: "Assigned"
+            });
 
-					.then((docRef) => {
-						swal({
-							title: "Done!",
-							text: "PHI assigned successfully",
-							icon: "success",
-							button: "Ok",
-						}).then((value) => {
-							location.reload();
-						});
-					})
-					.catch((error) => {
-						swal("System error !", "Unable to assign PHI ,Please contact system administator !", "error");
+            database.collection("phiJobs").doc(phi_job_key).set({
+                    phi_id: $("#patient_phi_officer").val().trim(),
+                    patient_id: $("#patient_id").val().trim(),
+                    patient_nic: $("#patient_nic").val().trim(),
+                    phi_job_status: "Assigned",
+                    phi_notes: "",
+                    phi_job_completed_date: ""
+                })
 
-					});
+                .then((docRef) => {
+                    swal({
+                        title: "Done!",
+                        text: "PHI assigned successfully",
+                        icon: "success",
+                        button: "Ok",
+                    }).then((value) => {
+                        location.reload();
+                    });
+                })
+                .catch((error) => {
+                    swal("System error !", "Unable to assign PHI ,Please contact system administator !", "error");
 
-			}
-		});
+                });
+        } else {
 
-		$("#clearButton").click(function (e) {
-			location.reload();
-		});
+            database.collection("patient_data").doc($("#patient_id").val().trim()).update({
+                patient_disease_note: $("#patient_disease_note").val().trim(),
+                patient_phi_status: "Assigned"
+            });
 
-		$("#patient_phi_officer").keyup(function () {
-			if (!($("#patient_phi_officer").val() === '')) {
-				$("#div_patient_phi_officer").attr('class', 'col-sm-4');
-			}
-		});
+            database.collection("phiJobs").doc($("#patient_phi_job_id").val().trim()).update({
+                    phi_id: $("#patient_phi_officer").val().trim(),
+                    phi_notes: $("#patient_phi_notes").val().trim()
+                })
 
-		const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                .then((docRef) => {
+                    swal({
+                        title: "Done!",
+                        text: "PHI reassigend successfully",
+                        icon: "success",
+                        button: "Ok",
+                    }).then((value) => {
+                        location.reload();
+                    });
+                })
+                .catch((error) => {
+                    swal("System error !", "Unable to assign PHI ,Please contact system administator !", "error");
 
+                });
 
-		function generateString(length) {
-			let result = ' ';
-			const charactersLength = characters.length;
-			for (let i = 0; i < length; i++) {
-				result += characters.charAt(Math.floor(Math.random() * charactersLength));
-			}
+        }
 
-			return result;
-		}
+    }
+});
 
-		function validatePatient() {
+$("#clearButton").click(function(e) {
+    location.reload();
+});
 
-			var hasError = true;
+$("#patient_phi_officer").keyup(function() {
+    if (!($("#patient_phi_officer").val() === '')) {
+        $("#div_patient_phi_officer").attr('class', 'col-sm-4');
+    }
+});
 
-			if ($("#patient_id").val() === '') {
-				$("#div_patient_id").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-
-			if ($("#patient_nic").val() === '') {
-				$("#div_patient_nic").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-
-			if ($("#patient_phi_officer").val() === '') {
-				$("#div_patient_phi_officer").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-
-			return hasError;
-
-		}
-
-		async function createPatientGrid() {
-			var gridrow = '';
-
-			const patientJobRef = firebase.firestore().collection('patient_data');
-			patientJobRef.onSnapshot(
-				querySnapshot => {
-					querySnapshot.forEach((doc) => {
-						var doc_data = doc.data();
-						console.log(doc_data)
-
-						var patient_disease = doc_data.patient_disease;
-						var patient_disease_lable = '';
-						if (patient_disease === 'Covid-19') {
-							patient_disease_lable = '<span class="label label-danger">' + patient_disease + '</span>';
-						} else if (patient_disease === 'Dengue Fever') {
-							patient_disease_lable = '<span class="label label-warning">' + patient_disease + '</span>';
-						} else if (patient_disease === 'Malaria') {
-							patient_disease_lable = '<span class="label label-primary">' + patient_disease + '</span>';
-						} else if (patient_disease === 'Cholera') {
-							patient_disease_lable = '<span class="label label-success">' + patient_disease + '</span>';
-						} else {
-							patient_disease_lable = '<span class="label label-info">' + patient_disease + '</span>';
-						}
-
-						var patient_phi_status = doc_data.patient_phi_status;
-						var patient_phi_status_lable = '';
-
-						if (patient_phi_status === 'Not Assigned') {
-							patient_phi_status_lable = '<span class="label label-danger">' + patient_phi_status + '</span>';
-						} else if (patient_phi_status === 'Pending') {
-							patient_phi_status_lable = '<span class="label label-warning">' + patient_phi_status + '</span>';
-						} else if (patient_phi_status === 'Completed') {
-							patient_phi_status_lable = '<span class="label label-success">' + patient_phi_status + '</span>';
-						} else {
-							patient_phi_status_lable = '<span class="label label-primary">' + patient_phi_status + '</span>';
-						}
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 
-						gridrow += '<tr>' +
-							'<td>' + doc.id + '</td>' +
-							'<td>' + doc_data.patient_nic + '</td>' +
-							'<td>' + doc_data.patient_name + '</td>' +
-							'<td>' + doc_data.patient_dob + '</td>' +
-							'<td>' + doc_data.patient_address + '</td>' +
-							'<td>' + patient_disease_lable + ' </td>' +
-							'<td>' + doc_data.patient_telephone1 + '</td>' +
-							'<td>' + patient_phi_status_lable + '</td>' +
-							'<td class="text-right">' +
-							'<div class="btn-group">' +
-							'<button class="btn-info btn btn-xs" onclick="getPatientData(\'' + doc.id + '\')">Edit</button>' +
-							'</div>' +
-							'</td>' +
-							'</tr>';
+function generateString(length) {
+    let result = ' ';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
 
-						document.getElementById('patient_moh_jobs_BODY').innerHTML = gridrow;
+    return result;
+}
 
-					})
-				}
-			)
-		}
+function validatePatient() {
+
+    var hasError = true;
+
+    if ($("#patient_id").val() === '') {
+        $("#div_patient_id").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+
+    if ($("#patient_nic").val() === '') {
+        $("#div_patient_nic").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+
+    if ($("#patient_phi_officer").val() === '') {
+        $("#div_patient_phi_officer").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+
+    return hasError;
+
+}
+
+
+async function createPatientGrid() {
+    var gridrow = '';
+
+
+    $('#patient_moh_jobs_table tbody').empty();
+    const patientJobRef = firebase.firestore().collection('patient_data');
+    patientJobRef.onSnapshot(
+        querySnapshot => {
+            querySnapshot.forEach((doc) => {
+                var doc_data = doc.data();
+                var patient_disease = doc_data.patient_disease;
+                var patient_disease_lable = '';
+                if (patient_disease === 'Covid-19') {
+                    patient_disease_lable = '<span class="label label-danger">' + patient_disease + '</span>';
+                } else if (patient_disease === 'Dengue Fever') {
+                    patient_disease_lable = '<span class="label label-warning">' + patient_disease + '</span>';
+                } else if (patient_disease === 'Malaria') {
+                    patient_disease_lable = '<span class="label label-primary">' + patient_disease + '</span>';
+                } else if (patient_disease === 'Cholera') {
+                    patient_disease_lable = '<span class="label label-success">' + patient_disease + '</span>';
+                } else {
+                    patient_disease_lable = '<span class="label label-info">' + patient_disease + '</span>';
+                }
+
+                var patient_phi_status = doc_data.patient_phi_status;
+                var patient_phi_status_lable = '';
+
+                if (patient_phi_status === 'Not Assigned') {
+                    patient_phi_status_lable = '<span class="label label-danger">' + patient_phi_status + '</span>';
+
+                    gridrow += '<tr>' +
+                        '<td>' + doc.id + '</td>' +
+                        '<td>' + doc_data.patient_nic + '</td>' +
+                        '<td>' + doc_data.patient_name + '</td>' +                        
+                        '<td>' + doc_data.patient_address + '</td>' +
+						'<td>' + doc_data.patient_disease_date + '</td>' +
+                        '<td>' + patient_disease_lable + ' </td>' +
+                        '<td>' + doc_data.patient_telephone1 + '</td>' +
+                        '<td>' + patient_phi_status_lable + '</td>' +
+                        '<td class="text-right">' +
+                        '<div class="btn-group">' +
+                        '<button class="btn-info btn btn-xs" onclick="getPatientData(\'' + doc.id + '\')">Edit</button>' +
+                        '</div>' +
+                        '</td>' +
+                        '</tr>';
+
+                    document.getElementById('patient_moh_jobs_table_body').innerHTML = gridrow;
+
+                } else {
+
+                    database.collection("phiJobs").where("patient_id", "==", doc.id).get().then((querySnapshot) => {
+                        querySnapshot.forEach((docPhiJobs) => {
+                            var phi_doc_data = docPhiJobs.data();
+                            patient_phi_status = phi_doc_data.phi_job_status
+                            console.log(patient_phi_status);
+
+                            if (patient_phi_status === 'Pending') {
+                                patient_phi_status_lable = '<span class="label label-warning">' + patient_phi_status + '</span>';
+                            } else if (patient_phi_status === 'Completed') {
+                                patient_phi_status_lable = '<span class="label label-success">' + patient_phi_status + '</span>';
+                            } else {
+                                patient_phi_status_lable = '<span class="label label-primary">' + patient_phi_status + '</span>';
+                            }
+
+                            gridrow += '<tr>' +
+                                '<td>' + doc.id + '</td>' +
+                                '<td>' + doc_data.patient_nic + '</td>' +
+                                '<td>' + doc_data.patient_name + '</td>' +
+                                '<td>' + doc_data.patient_address + '</td>' +
+								'<td>' + doc_data.patient_disease_date + '</td>' +
+                                '<td>' + patient_disease_lable + ' </td>' +
+                                '<td>' + doc_data.patient_telephone1 + '</td>' +
+                                '<td>' + patient_phi_status_lable + '</td>' +
+                                '<td class="text-right">' +
+                                '<div class="btn-group">' +
+                                '<button class="btn-info btn btn-xs" onclick="getPatientData(\'' + doc.id + '\')">Edit</button>' +
+                                '</div>' +
+                                '</td>' +
+                                '</tr>';
+
+                            document.getElementById('patient_moh_jobs_table_body').innerHTML = gridrow;
+
+                        });
+                    });
+                }
+            })
+        }
+    )
+}
 
 	</script>
 
 	<script type="text/javascript">
 
-		function getPatientData(primary_key) {
+function getPatientData(primary_key) {
 
-			var database = firebase.firestore();
+	var database = firebase.firestore();
 
-			database.collection("patient_data").doc(primary_key).get().then((doc) => {
-				if (doc.exists) {
-					$("#patient_id").val(doc.id);
-					$("#patient_nic").val(doc.data().patient_nic);
-					$("#patient_district").val(doc.data().patient_district);
-					$("#patient_moh").val(doc.data().patient_moh);
-					$("#patient_hospital").val(doc.data().patient_hospital);
-					$("#patient_name").val(doc.data().patient_name);
-					$("#patient_gender").val(doc.data().patient_gender);
-					$("#patient_dob").val(doc.data().patient_dob);
-					$("#patient_age").val(doc.data().patient_age);
-					$("#patient_telephone1").val(doc.data().patient_telephone1);
-					$("#patient_telephone2").val(doc.data().patient_telephone2);
-					$("#patient_address").val(doc.data().patient_address);
-					$("#patient_disease").val(doc.data().patient_disease);
-					$("#patient_disease_date").val(doc.data().patient_disease_date);
-					$("#patient_disease_note").val(doc.data().patient_disease_note);
+    database.collection("patient_data").doc(primary_key).get().then((doc) => {
+        if (doc.exists) {
+        	
+        	
+        	
+        	var patient_phi_status = doc.data().patient_phi_status;
+        	
+        	if (patient_phi_status === 'Not Assigned') {
+        		
+        		$("#patient_id").val(doc.id);
+                $("#patient_nic").val(doc.data().patient_nic);
+                $("#patient_district").val(doc.data().patient_district);
+                $("#patient_moh").val(doc.data().patient_moh);
+                $("#patient_hospital").val(doc.data().patient_hospital);
+                $("#patient_name").val(doc.data().patient_name);
+                $("#patient_gender").val(doc.data().patient_gender);
+                $("#patient_dob").val(doc.data().patient_dob);
+                $("#patient_age").val(doc.data().patient_age);
+                $("#patient_telephone1").val(doc.data().patient_telephone1);
+                $("#patient_telephone2").val(doc.data().patient_telephone2);
+                $("#patient_address").val(doc.data().patient_address);
+                $("#patient_disease").val(doc.data().patient_disease);
+                $("#patient_disease_date").val(doc.data().patient_disease_date);
+                $("#patient_disease_note").val(doc.data().patient_disease_note);
+                
+        	}else{
+        		
+        		database.collection("phiJobs").where("patient_id", "==", doc.id).get().then((querySnapshot) => {
+                    querySnapshot.forEach((docPhiJobs) => {
+                        var phi_doc_data = docPhiJobs.data();
+                        
+                        $("#patient_phi_job_id").val(docPhiJobs.id);
+                        $("#patient_phi_officer").val(phi_doc_data.phi_id);
+                        $("#patient_phi_notes").val(phi_doc_data.phi_notes);
+                        
+                        $("#patient_id").val(doc.id);
+                        $("#patient_nic").val(doc.data().patient_nic);
+                        $("#patient_district").val(doc.data().patient_district);
+                        $("#patient_moh").val(doc.data().patient_moh);
+                        $("#patient_hospital").val(doc.data().patient_hospital);
+                        $("#patient_name").val(doc.data().patient_name);
+                        $("#patient_gender").val(doc.data().patient_gender);
+                        $("#patient_dob").val(doc.data().patient_dob);
+                        $("#patient_age").val(doc.data().patient_age);
+                        $("#patient_telephone1").val(doc.data().patient_telephone1);
+                        $("#patient_telephone2").val(doc.data().patient_telephone2);
+                        $("#patient_address").val(doc.data().patient_address);
+                        $("#patient_disease").val(doc.data().patient_disease);
+                        $("#patient_disease_date").val(doc.data().patient_disease_date);
+                        $("#patient_disease_note").val(doc.data().patient_disease_note);
+                        
+                     	
 
-					$("#div_patient_id").attr('class', 'col-sm-4');
-					$("#div_patient_nic").attr('class', 'col-sm-4');
-					$("#div_patient_phi_officer").attr('class', 'col-sm-4');
-				} else {
-					console.log("No such user!");
-				}
-			}).catch((error) => {
-				console.log("Error getting document:", error);
-			});
-		}
+                    });
+                });
+        		
+        	}
+        	
+        	
+            $("#div_patient_id").attr('class',  'col-sm-4');
+            $("#div_patient_nic").attr('class',  'col-sm-4');
+            $("#div_patient_phi_officer").attr('class',  'col-sm-4');
+            
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        } else {
+            console.log("No such user!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+}
 
-	</script>
+</script>
 
 </body>
 
