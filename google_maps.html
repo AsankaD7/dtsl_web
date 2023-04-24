@@ -17,8 +17,10 @@
     <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+    <script src="./js/sweetalert.min.js"></script>
     <script src="./config/config.js"></script>
     <script src="./js/userRole.js"></script>
+    <script src="./js/logout.js"></script>
 
 </head>
 
@@ -35,11 +37,11 @@
                                 <span id="role" class="text-muted text-xs block"><b class="caret"></b></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                                <li><a class="dropdown-item" href="contacts.html">Contacts</a></li>
-                                <li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li>
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Contacts</a></li>
+                                <li><a class="dropdown-item" href="#">Mailbox</a></li>
                                 <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="login.html">Logout</a></li>
+                                <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
                             </ul>
                         </div>
                         <div class="logo-element">
@@ -58,7 +60,7 @@
                                 class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li><a href="patient.html">Patient History</a></li>
-                            <li><a href="add_patient.html">Add Patient</a></li>
+                            <li><a href="add_patient.html">Manage Patient</a></li>
                         </ul>
                     </li>
                     <li>
@@ -66,7 +68,15 @@
                                 class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li><a href="add_phi.html">ADD PHI</a></li>
-                            <li><a href="form_advanced.html">MOH JOB</a></li>
+                            <li><a href="phi_job_assign.html">PHI JOB</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">User Managment</span><span
+                                class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li><a href="user_add.html">ADD USER</a></li>
+                            <li><a href="user_edit.html">EDIT USER</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -175,7 +185,7 @@
 
 
                         <li>
-                            <a href="login.html">
+                            <a onclick="logout()">
                                 <i class="fa fa-sign-out"></i> Log out
                             </a>
                         </li>
@@ -185,16 +195,16 @@
             </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>Google Maps</h2>
+                    <h2>Disease Locations</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
+                            <a href="#">Home</a>
                         </li>
                         <li class="breadcrumb-item">
                             <a>Map</a>
                         </li>
                         <li class="breadcrumb-item active">
-                            <strong>Google Maps</strong>
+                            <strong>Disease Locations</strong>
                         </li>
                     </ol>
                 </div>
@@ -215,17 +225,12 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="ibox ">
+                        <div class="ibox">
                             <div class="ibox-title">
-                                <h5>Google Maps Basic example</h5>
+                                <h5>Mapping disease locations </h5>
                             </div>
                             <div class="ibox-content">
-                                <p>
-                                    With google maps <a
-                                        href="https://developers.google.com/maps/documentation/javascript/reference#MapOptions">API</a>
-                                    You can easy customize your map.
-                                </p>
-                                <div class="google-map" id="map1"></div>
+                                <div class="google-map" id="map1" style="height: 600px;"></div>
                             </div>
                         </div>
                     </div>
@@ -256,38 +261,40 @@
     <script src="js/plugins/pace/pace.min.js"></script>
 
     <script type="text/javascript">
+
+        // Create a Firestore instance
+        var database = firebase.firestore();
+
         // When the window has finished loading google map
         google.maps.event.addDomListener(window, 'load', initMap);
 
         function initMap() {
+            var triangleCoords = [];
             var map = new google.maps.Map(document.getElementById('map1'), {
                 zoom: 09,
                 center: { lat: 35.6896, lng: 139.7006 }
             });
 
-            var marker1 = new google.maps.Marker({
-                position: { lat: 35.6896, lng: 139.7006 },
-                map: map,
-                title: 'Marker 1'
+
+
+            database.collection("disease_locations").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, " => ", doc.data());
+
+                    new google.maps.Marker({
+                        position: { lat: parseFloat(doc.data().lat), lng: parseFloat(doc.data().lng) },
+                        map: map,
+                        title: doc.data().disease
+                    });
+
+
+                    triangleCoords.push({ lat: parseFloat(doc.data().lat), lng: parseFloat(doc.data().lng) });
+                });
             });
 
-            var marker2 = new google.maps.Marker({
-                position: { lat: 35.4660, lng: 139.6221 },
-                map: map,
-                title: 'Marker 2'
-            });
+            console.log(triangleCoords);
 
-            var marker3 = new google.maps.Marker({
-                position: { lat: 35.4393, lng: 139.3643 },
-                map: map,
-                title: 'Marker 3'
-            });
-
-            var triangleCoords = [
-                { lat: 35.6896, lng: 139.7006 },
-                { lat: 35.4660, lng: 139.6221 },
-                { lat: 35.4393, lng: 139.3643 }
-            ];
 
             var triangle = new google.maps.Polygon({
                 paths: triangleCoords,
