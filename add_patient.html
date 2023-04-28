@@ -501,25 +501,36 @@
 	</script>
 
 	<script type="module">
+<<<<<<< HEAD
 		window.onload = function () {
 			loginState();
 			createPatientGrid();
 		};
+=======
+window.onload = function() {
+    createPatientGrid();
+};
 
+var database = firebase.firestore();
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
+
+<<<<<<< HEAD
 		var database = firebase.firestore();
 
+=======
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 async function createPatientGrid() {
 
 
 	$('#patient_table tbody').empty();
     var gridrow = '';
 
-			const patientJobRef = firebase.firestore().collection('patient_data');
-			patientJobRef.onSnapshot(
-				querySnapshot => {
-					querySnapshot.forEach((doc) => {
-						var doc_data = doc.data();
-						console.log(doc_data)
+    const patientJobRef = firebase.firestore().collection('patient_data');
+    patientJobRef.onSnapshot(
+        querySnapshot => {
+            querySnapshot.forEach((doc) => {
+                var doc_data = doc.data();
+                console.log(doc_data)
 
                 var patient_disease = doc_data.patient_disease;
                 var patient_disease_lable = '';
@@ -544,14 +555,14 @@ async function createPatientGrid() {
                     '</tr>';
                 document.getElementById('patient_table_body').innerHTML = gridrow;
 
-					})
-				}
-			)
-		}
+            })
+        }
+    )
+}
 
-		$("#submitButton").click(function (e) {
+$("#submitButton").click(function(e) {
 
-			if (validatePatient()) {
+    if (validatePatient()) {
 
         if ($("#primary_key").val() === '') {
 
@@ -626,17 +637,51 @@ async function createPatientGrid() {
                 });
         }
 
-			}
-		});
+    }
+});
 
 
+<<<<<<< HEAD
+=======
 
-		$("#patient_district").keyup(function () {
-			if (!($("#patient_district").val() === '')) {
-				$("#div_patient_district").attr('class', 'col-sm-4');
-			}
-		});
+$("#patient_district").keyup(function() {
+    if (!($("#patient_district").val() === '')) {
+        $("#div_patient_district").attr('class', 'col-sm-4');
+    }
+});
 
+$("#patient_moh").keyup(function() {
+    if (!($("#patient_moh").val() === '')) {
+        $("#div_patient_moh").attr('class', 'col-sm-4');
+    }
+});
+
+$("#patient_hospital").keyup(function() {
+    if (!($("#patient_hospital").val() === '')) {
+        $("#div_patient_hospital").attr('class', 'col-sm-4');
+    }
+});
+
+$("#patient_nic").keyup(function() {
+    if (!($("#patient_nic").val() === '')) {
+        $("#div_patient_nic").attr('class', 'col-sm-4');
+    }
+});
+
+$("#patient_name").keyup(function() {
+    if (!($("#patient_name").val() === '')) {
+        $("#div_patient_name").attr('class', 'col-sm-8');
+    }
+});
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
+
+$("#patient_dob").keyup(function() {
+    if (!($("#patient_dob").val() === '')) {
+        $("#div_patient_dob").attr('class', 'col-sm-4');
+    }
+});
+
+<<<<<<< HEAD
 		$("#patient_moh").keyup(function () {
 			if (!($("#patient_moh").val() === '')) {
 				$("#div_patient_moh").attr('class', 'col-sm-4');
@@ -672,18 +717,25 @@ async function createPatientGrid() {
 				$("#div_patient_age").attr('class', 'col-sm-4');
 			}
 		});
+=======
+$("#patient_age").keyup(function() {
+    if (!($("#patient_age").val() === '')) {
+        $("#div_patient_age").attr('class', 'col-sm-4');
+    }
+}); 
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
-		$("#patient_telephone1").keyup(function () {
-			if (!($("#patient_telephone1").val() === '')) {
-				$("#div_patient_telephone1").attr('class', 'col-sm-4');
-			}
-		});
+$("#patient_telephone1").keyup(function() {
+    if (!($("#patient_telephone1").val() === '')) {
+        $("#div_patient_telephone1").attr('class', 'col-sm-4');
+    }
+});
 
-		$("#patient_address").keyup(function () {
-			if (!($("#patient_address").val() === '')) {
-				$("#div_patient_address").attr('class', 'col-sm-4');
-			}
-		});
+$("#patient_address").keyup(function() {
+    if (!($("#patient_address").val() === '')) {
+        $("#div_patient_address").attr('class', 'col-sm-4');
+    }
+});
 
 $("#patient_disease").keyup(function() {
     if (!($("#patient_disease").val() === '')) {
@@ -697,77 +749,78 @@ $("#patient_disease_date").keyup(function() {
     }
 });
 
-		$("#patient_disease_note").keyup(function () {
-			if (!($("#patient_disease_note").val() === '')) {
-				$("#div_patient_disease_note").attr('class', 'col-sm-12');
-			}
-		});
+$("#patient_disease_note").keyup(function() {
+    if (!($("#patient_disease_note").val() === '')) {
+        $("#div_patient_disease_note").attr('class', 'col-sm-12');
+    }
+});
 
 
 
-		function validatePatient() {
+function validatePatient() {
 
-			var hasError = true;
-			if ($("#patient_district").val() === '') {
-				$("#div_patient_district").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-			if ($("#patient_moh").val() === '') {
-				$("#div_patient_moh").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-			if ($("#patient_hospital").val() === '') {
-				$("#div_patient_hospital").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
+    var hasError = true;
+    if ($("#patient_district").val() === '') {
+        $("#div_patient_district").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+    if ($("#patient_moh").val() === '') {
+        $("#div_patient_moh").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+    if ($("#patient_hospital").val() === '') {
+        $("#div_patient_hospital").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
 
-			if ($("#patient_nic").val() === '') {
-				$("#div_patient_nic").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-			if ($("#patient_name").val() === '') {
-				$("#div_patient_name").attr('class', 'col-sm-8 has-error');
-				hasError = false;
-			}
-			if ($("#patient_dob").val() === '') {
-				$("#div_patient_dob").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
-			if ($("#patient_age").val() === '') {
-				$("#div_patient_age").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
+    if ($("#patient_nic").val() === '') {
+        $("#div_patient_nic").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+    if ($("#patient_name").val() === '') {
+        $("#div_patient_name").attr('class', 'col-sm-8 has-error');
+        hasError = false;
+    }
+    if ($("#patient_dob").val() === '') {
+        $("#div_patient_dob").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+    if ($("#patient_age").val() === '') {
+        $("#div_patient_age").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
 
-			if ($("#patient_telephone1").val() === '') {
-				$("#div_patient_telephone1").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
+    if ($("#patient_telephone1").val() === '') {
+        $("#div_patient_telephone1").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
 
     if ($("#patient_address").val() === '') {
         $("#div_patient_address").attr('class', 'col-sm-4 has-error');
         hasError = false;
     }
 
-			if ($("#patient_disease").val() === '') {
-				$("#div_patient_disease").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
+    if ($("#patient_disease").val() === '') {
+        $("#div_patient_disease").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
 
     if ($("#patient_disease_date").val() === '') {
         $("#div_patient_disease_date").attr('class', 'col-sm-4 has-error');
         hasError = false;
     }
 
-			if ($("#patient_disease_note").val() === '') {
-				$("#div_patient_disease_note").attr('class', 'col-sm-12 has-error');
-				hasError = false;
-			}
+    if ($("#patient_disease_note").val() === '') {
+        $("#div_patient_disease_note").attr('class', 'col-sm-12 has-error');
+        hasError = false;
+    }
 
-			return hasError;
+    return hasError;
 
-		}
+}
 
 
+<<<<<<< HEAD
 		$('#logout').on('click', function (e) {
 			e.preventDefault();
 			signOut(auth).then(() => {
@@ -781,12 +834,27 @@ $("#patient_disease_date").keyup(function() {
 			});
 		});
 	</script>
+=======
+$('#logout').on('click', function(e) {
+    e.preventDefault();
+    signOut(auth).then(() => {
+        // Sign-out successful.
+        window.location.href = "login.html";
+    }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+        alert(errorMessage)
+    });
+});
+</script>
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
 	<script type="text/javascript">
 
-		function getPatientData(primary_key) {
+function getPatientData(primary_key) {
 
-			var database = firebase.firestore();
+	var database = firebase.firestore();
 
     database.collection("patient_data").doc(primary_key).get().then((doc) => {
         if (doc.exists) {
@@ -815,8 +883,7 @@ $("#patient_disease_date").keyup(function() {
     });
 }
 
-	</script>
-
+</script>
 </body>
 
 </html>

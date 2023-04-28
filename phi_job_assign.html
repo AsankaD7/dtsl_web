@@ -302,8 +302,14 @@
 					<div class="row">
 						<div id="div_patient_id" class="col-sm-4">
 							<div class="form-group">
+<<<<<<< HEAD
 								<label class="col-form-label" for="name">Patient ID</label> <input type="text"
 									id="patient_id" name="name" value="" placeholder="Patient ID" class="form-control">
+=======
+								<label class="col-form-label" for="name">Patient ID</label> <input
+									type="text" id="patient_id" name="name" value=""
+									placeholder="Patient ID" class="form-control">
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 									<input
 									type="hidden" id="patient_phi_job_id" name="name" value=""
 									placeholder="PHI Job ID" class="form-control">
@@ -530,6 +536,16 @@
 
 		});
 	</script>
+<<<<<<< HEAD
+=======
+	<script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+	<script
+		src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+	<script src="./config/config.js"></script>
+	<script src="./js/sweetalert.min.js"></script>
+	<script type="module">   
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 window.onload = function() {
     createPatientGrid();
     loadPhiOfficers();
@@ -553,6 +569,7 @@ window.onload = function() {
 
 };
 
+<<<<<<< HEAD
 						$('#patient_phi_officer').append($('<option>', {
 							value: doc.id,
 							text: doc_data.name + " - " + doc_data.district
@@ -561,8 +578,16 @@ window.onload = function() {
 				}
 			)
 		}
+=======
+var database = firebase.firestore();
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
+<<<<<<< HEAD
 		$("#submitButton").click(function (e) {
+=======
+function loadPhiOfficers() {
+    var gridrow = '';
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
     const phiOfficersList = firebase.firestore().collection('phiTable');
     phiOfficersList.onSnapshot(
@@ -578,6 +603,7 @@ window.onload = function() {
     )
 }
 
+<<<<<<< HEAD
 				database.collection("phiJobs").doc(phi_job_key).set({
 					phi_id: $("#patient_phi_officer").val().trim(),
 					patient_id: $("#patient_id").val().trim(),
@@ -586,6 +612,9 @@ window.onload = function() {
 					phi_notes: "",
 					phi_job_completed_date: ""
 				})
+=======
+$("#submitButton").click(function(e) {
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
     if (validatePatient()) {
 
@@ -627,11 +656,15 @@ window.onload = function() {
             database.collection("patient_data").doc($("#patient_id").val().trim()).update({
                 patient_disease_note: $("#patient_disease_note").val().trim(),
                 patient_phi_status: "Assigned"
+<<<<<<< HEAD
 		$("#patient_phi_officer").keyup(function () {
 			if (!($("#patient_phi_officer").val() === '')) {
 				$("#div_patient_phi_officer").attr('class', 'col-sm-4');
 			}
 		});
+=======
+            });
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
             database.collection("phiJobs").doc($("#patient_phi_job_id").val().trim()).update({
                     phi_id: $("#patient_phi_officer").val().trim(),
@@ -655,8 +688,19 @@ window.onload = function() {
 
         }
 
+<<<<<<< HEAD
 		const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+=======
+    }
+});
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
+<<<<<<< HEAD
+=======
+$("#clearButton").click(function(e) {
+    location.reload();
+});
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
 $("#patient_phi_officer").keyup(function() {
     if (!($("#patient_phi_officer").val() === '')) {
@@ -665,9 +709,16 @@ $("#patient_phi_officer").keyup(function() {
 });
 
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+<<<<<<< HEAD
 
 		function validatePatient() {
+=======
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 function generateString(length) {
     let result = ' ';
     const charactersLength = characters.length;
@@ -675,40 +726,74 @@ function generateString(length) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
 
+<<<<<<< HEAD
 			if ($("#patient_id").val() === '') {
 				$("#div_patient_id").attr('class', 'col-sm-4 has-error');
 				hasError = false;
 			}
+=======
+    return result;
+}
 
-			if ($("#patient_nic").val() === '') {
-				$("#div_patient_nic").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
+function validatePatient() {
 
-			if ($("#patient_phi_officer").val() === '') {
-				$("#div_patient_phi_officer").attr('class', 'col-sm-4 has-error');
-				hasError = false;
-			}
+    var hasError = true;
 
     if ($("#patient_id").val() === '') {
         $("#div_patient_id").attr('class', 'col-sm-4 has-error');
         hasError = false;
     }
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
-		}
+    if ($("#patient_nic").val() === '') {
+        $("#div_patient_nic").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
 
+<<<<<<< HEAD
+			if ($("#patient_phi_officer").val() === '') {
+				$("#div_patient_phi_officer").attr('class', 'col-sm-4 has-error');
+				hasError = false;
+			}
+=======
     if ($("#patient_phi_officer").val() === '') {
         $("#div_patient_phi_officer").attr('class', 'col-sm-4 has-error');
         hasError = false;
     }
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
+<<<<<<< HEAD
+    if ($("#patient_id").val() === '') {
+        $("#div_patient_id").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+=======
+    return hasError;
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
+
+}
+
+<<<<<<< HEAD
+    if ($("#patient_phi_officer").val() === '') {
+        $("#div_patient_phi_officer").attr('class', 'col-sm-4 has-error');
+        hasError = false;
+    }
+=======
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
+
+<<<<<<< HEAD
 			const patientJobRef = firebase.firestore().collection('patient_data');
 			patientJobRef.onSnapshot(
 				querySnapshot => {
 					querySnapshot.forEach((doc) => {
 						var doc_data = doc.data();
 						console.log(doc_data)
+=======
+async function createPatientGrid() {
+    var gridrow = '';
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
+<<<<<<< HEAD
 						var patient_disease = doc_data.patient_disease;
 						var patient_disease_lable = '';
 						if (patient_disease === 'Covid-19') {
@@ -727,6 +812,8 @@ function generateString(length) {
 						var patient_phi_status = doc_data.patient_phi_status;
 						var patient_phi_status_lable = '';
 
+=======
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
     $('#patient_moh_jobs_table tbody').empty();
     const patientJobRef = firebase.firestore().collection('patient_data');
@@ -813,12 +900,16 @@ function generateString(length) {
         }
     )
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
 	</script>
 
 	<script type="text/javascript">
 
+<<<<<<< HEAD
 			var database = firebase.firestore();
 
 			database.collection("patient_data").doc(primary_key).get().then((doc) => {
@@ -838,6 +929,11 @@ function generateString(length) {
 					$("#patient_disease").val(doc.data().patient_disease);
 					$("#patient_disease_date").val(doc.data().patient_disease_date);
 					$("#patient_disease_note").val(doc.data().patient_disease_note);
+=======
+function getPatientData(primary_key) {
+
+	var database = firebase.firestore();
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
     database.collection("patient_data").doc(primary_key).get().then((doc) => {
         if (doc.exists) {
@@ -911,7 +1007,11 @@ function generateString(length) {
     });
 }
 
+<<<<<<< HEAD
 	</script>
+=======
+</script>
+>>>>>>> branch 'madhawa-dev.1.0' of https://github.com/AsankaD7/dtsl_web
 
 </body>
 
