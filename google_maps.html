@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MOH | MAP</title>
+    <title>DAS | MAP</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -55,32 +55,7 @@
                             <li><a href="google_maps.html">Map</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Patient</span><span
-                                class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="patient.html">Patient History</a></li>
-                            <li><a href="add_patient.html">Manage Patient</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">MOH</span><span
-                                class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="add_phi.html">ADD PHI</a></li>
-                            <li><a href="phi_job_assign.html">PHI JOB</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">User Managment</span><span
-                                class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="user_add.html">ADD USER</a></li>
-                            <li><a href="user_edit.html">EDIT USER</a></li>
-                        </ul>
-                    </li>
                 </ul>
-
             </div>
         </nav>
         <div id="page-wrapper" class="gray-bg">
@@ -98,7 +73,7 @@
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <span class="m-r-sm text-muted welcome-message">Welcome to MOH Admin Page.</span>
+                            <span class="m-r-sm text-muted welcome-message"></span>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -182,8 +157,6 @@
                                 </li>
                             </ul>
                         </li>
-
-
                         <li>
                             <a onclick="logout()">
                                 <i class="fa fa-sign-out"></i> Log out
@@ -223,6 +196,28 @@
                 <script type="text/javascript"
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
 
+                    <div class="ibox-content m-b-sm border-bottom">
+                        <div class="row">
+                            <div id="div_patient_district" class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="order_id">Search by
+                                        Disease</label> <select id="patient_disease" class="form-control">
+                                        <option>Covid-19</option>
+                                        <option>Cholera</option>
+                                        <option>Chicken pox</option>
+                                        <option>Dengue Fever</option>
+                                        <option>Malaria</option>
+                                        <option>Yellow Fever</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                            </div>
+                            <div class="col-sm-4">
+                            </div>
+                        </div>
+                    </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="ibox">
@@ -230,19 +225,13 @@
                                 <h5>Mapping disease locations </h5>
                             </div>
                             <div class="ibox-content">
-                                <div class="google-map" id="map1" style="height: 600px;"></div>
+                                <div class="google-map" id="map1" style="height: 550px;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="footer">
-                <div class="float-right">
-                    10GB of <strong>250GB</strong> Free.
-                </div>
-                <div>
-                    <strong>Copyright</strong> ADJ Company &copy; 2023-2024
-                </div>
             </div>
         </div>
     </div>

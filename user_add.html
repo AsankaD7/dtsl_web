@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MOH | User Mangement</title>
+    <title>DAS | User Mangement</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -17,6 +17,7 @@
 
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 
 
     <!-- CDN for Firebase services -->
@@ -34,6 +35,7 @@
 
     <script>
         window.onload = function () {
+            getUserRole(sessionStorage.getItem("userRole"));
             loginState();
             createUserGrid();
         };
@@ -143,8 +145,8 @@
         }
 
         function getUserData(userId) {
- 
-            console.log(userId +"sssssssssssss");
+
+            console.log(userId + "sssssssssssss");
             database.collection("user_roles").doc(userId).get().then((doc) => {
                 if (doc.exists) {
                     $("#uid").val(doc.id);
@@ -171,7 +173,7 @@
             form.addEventListener("submit", function (event) {
                 if (form.checkValidity()) {
                     event.preventDefault();
-                    var uid =  getElementVal('uid');
+                    var uid = getElementVal('uid');
                     var nic = getElementVal('nic');
                     var selectRole = getElementVal('selectRole');
                     var fname = getElementVal('fname');
@@ -200,7 +202,7 @@
                         .then((docRef) => {
                             swal({
                                 title: "Done!",
-                                text: "User data saved successfully",
+                                text: "User data updated successfully",
                                 icon: "success",
                                 button: "Ok",
                             }).then((value) => {
@@ -236,7 +238,7 @@
 
                     }
 
-                    gridrow += '<tr>' + '<th style="font-weight: 500;">' + doc_data.last_login + '</th>' +
+                    gridrow += '<tr>' + '<th style="font-weight: 500;">' + doc_data.nic + '</th>' +
                         '<th style="font-weight: 500;">' + doc_data.name + '</th>' +
                         '<th style="font-weight: 500;">' + doc_data.birthDay + '</th>' +
                         '<th style="font-weight: 500;">' + doc_data.email + '</th>' +
@@ -253,7 +255,7 @@
             database.collection("user_roles").doc(id).delete().then(() => {
                 swal({
                     title: "Done!",
-                    text: "User data saved successfully",
+                    text: "User data deleted successfully",
                     icon: "success",
                     button: "Ok",
                 }).then((value) => {
@@ -269,6 +271,20 @@
             return document.getElementById(id).value;
         }
 
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePassword = document.querySelector('#toggle-password');
+            const password = document.querySelector('#password');
+
+            togglePassword.addEventListener('click', function (e) {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        });
     </script>
 
 
@@ -303,30 +319,6 @@
                                 <li><a href="google_maps.html">Map</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Patient</span><span
-                                    class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse">
-                                <li><a href="patient.html">Patient History</a></li>
-                                <li><a href="add_patient.html">Manage Patient</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">MOH</span><span
-                                    class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse">
-                                <li><a href="add_phi.html">ADD PHI</a></li>
-                                <li><a href="phi_job_assign.html">PHI JOB</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">User Managment</span><span
-                                    class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse">
-                                <li><a href="user_add.html">ADD USER</a></li>
-                                <li><a href="user_edit.html">EDIT USER</a></li>
-                            </ul>
-                        </li>
                     </ul>
 
                 </div>
@@ -346,7 +338,7 @@
                         </div>
                         <ul class="nav navbar-top-links navbar-right">
                             <li>
-                                <span class="m-r-sm text-muted welcome-message">Welcome to MOH Admin Page.</span>
+                                <span class="m-r-sm text-muted welcome-message"></span>
                             </li>
                             <li class="dropdown">
                                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -443,7 +435,7 @@
                 </div>
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
-                        <h2>ADD USER</h2>
+                        <h2>MANAGE USER</h2>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="#">Home</a>
@@ -452,7 +444,7 @@
                                 <a>USER</a>
                             </li>
                             <li class="breadcrumb-item active">
-                                <strong>ADD USER</strong>
+                                <strong>MANAGE USER</strong>
                             </li>
                         </ol>
                     </div>
@@ -542,14 +534,22 @@
                                     <div class="form-group">
                                         <label class="col-form-label" for="telephone">Telephone</label>
                                         <input type="text" id="telephone" name="telephone" value=""
-                                            placeholder="Telephone" class="form-control">
+                                            placeholder="Telephone" class="form-control"  maxlength="10" pattern="[0-9]*">
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="col-form-label" for="password">Password</label>
-                                        <input type="text" id="password" name="password" value="" placeholder="Password"
-                                            class="form-control" required="">
+                                        <div class="d-flex align-items-center">
+                                            <input type="password" id="password" name="password" value=""
+                                                placeholder="Password" class="form-control" required=""
+                                                style="margin-right: 10px;">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-eye-slash" id="toggle-password"></i>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -599,12 +599,6 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <div class="float-right">
-                        10GB of <strong>250GB</strong> Free.
-                    </div>
-                    <div>
-                        <strong>Copyright</strong> ADJ Company &copy; 2023-2024
-                    </div>
                 </div>
 
             </div>

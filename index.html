@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MOH | Login</title>
+    <title>DAS | Login</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -47,6 +47,11 @@
                             // Signed in 
                             const user = userCredential.user;
                             const dt = new Date();
+
+                            var userName = user.displayName;
+                            var photoURL = user.photoURL;
+                            sessionStorage.setItem("userName", userName);
+                            sessionStorage.setItem("photoURL", photoURL);
                             database.collection("user_roles").doc(user.uid).update({
                                 last_login: dt
                             });
@@ -55,19 +60,9 @@
                                 if (doc.exists) {
 
                                     var userRole = doc.data().selectRole;
+                                    sessionStorage.setItem("userRole", userRole);
 
-                                    if (userRole === 'MOH Admin') {
-                                        window.location.href = "phi_job_assign.html";
-                                    }
-                                    else if (userRole === 'Hospital Admin') {
-                                        window.location.href = "add_patient.html";
-                                    }
-                                    else if (userRole === 'System Admin') {
-                                        window.location.href = "google_maps.html";
-                                    }
-                                    else {
-                                        window.location.href = "google_maps.html";
-                                    }
+                                    window.location.href = "google_maps.html";
                                 } else {
                                     // doc.data() will be undefined in this case
                                     alert("No such user !!!");
@@ -127,7 +122,6 @@
                     No such user !!!
                 </div>
             </form>
-            <p class="m-t"> <small><strong>Copyright</strong> ADJ Company &copy; 2023-2024</small> </p>
         </div>
     </div>
 

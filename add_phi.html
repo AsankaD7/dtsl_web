@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>MOH | Add Patient</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="css/plugins/summernote/summernote-bs4.css" rel="stylesheet" />
+    <link href="css/plugins/summernote/summernote-bs4.css" rel="stylesheet">
 
-    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet" />
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
-    <link href="css/animate.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
     <!-- CDN for Firebase services -->
     <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
@@ -24,7 +26,8 @@
     <script src="./config/config.js"></script>
     <script src="./js/userRole.js"></script>
     <script src="./js/logout.js"></script>
-  </head>
+
+</head>
 
   <body>
     <script>
@@ -238,254 +241,162 @@
     </script>
 
     <div id="wrapper">
-      <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
-          <ul class="nav metismenu" id="side-menu">
-            <li class="nav-header">
-              <div class="dropdown profile-element">
-                <img
-                  id="userImage"
-                  alt="image"
-                  class="rounded-circle"
-                  src="img/profile_small.jpg"
-                />
-                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                  <span id="nameSpan" class="block m-t-xs font-bold"></span>
-                  <span id="role" class="text-muted text-xs block"
-                    ><b class="caret"></b
-                  ></span>
-                </a>
-                <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                  <li><a class="dropdown-item" href="#">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Contacts</a></li>
-                  <li><a class="dropdown-item" href="#">Mailbox</a></li>
-                  <li class="dropdown-divider"></li>
-                  <li>
-                    <a class="dropdown-item" onclick="logout()">Logout</a>
-                  </li>
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <img id="userImage" alt="image" class="rounded-circle" src="img/profile_small.jpg" />
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span id="nameSpan" class="block m-t-xs font-bold"></span>
+                                <span id="role" class="text-muted text-xs block"><b class="caret"></b></span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Contacts</a></li>
+                                <li><a class="dropdown-item" href="#">Mailbox</a></li>
+                                <li class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">
+                            AJ
+                        </div>
+                    </li>
+                    <li>
+                        <a href="google_maps.html"><i class="fa fa-th-large"></i> <span
+                                class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li><a href="google_maps.html">Map</a></li>
+                        </ul>
+                    </li>
                 </ul>
-              </div>
-              <div class="logo-element">AJ</div>
-            </li>
-            <li>
-              <a href="google_maps.html"
-                ><i class="fa fa-th-large"></i>
-                <span class="nav-label">Dashboards</span>
-                <span class="fa arrow"></span
-              ></a>
-              <ul class="nav nav-second-level collapse">
-                <li><a href="google_maps.html">Map</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#"
-                ><i class="fa fa-user"></i>
-                <span class="nav-label">Patient</span
-                ><span class="fa arrow"></span
-              ></a>
-              <ul class="nav nav-second-level collapse">
-                <li><a href="patient.html">Patient History</a></li>
-                <li><a href="add_patient.html">Manage Patient</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#"
-                ><i class="fa fa-flask"></i> <span class="nav-label">MOH</span
-                ><span class="fa arrow"></span
-              ></a>
-              <ul class="nav nav-second-level collapse">
-                <li><a href="add_phi.html">ADD PHI</a></li>
-                <li><a href="phi_job_assign.html">PHI JOB</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#"
-                ><i class="fa fa-sitemap"></i>
-                <span class="nav-label">User Managment</span
-                ><span class="fa arrow"></span
-              ></a>
-              <ul class="nav nav-second-level collapse">
-                <li><a href="user_add.html">ADD USER</a></li>
-                <li><a href="user_edit.html">EDIT USER</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <div id="page-wrapper" class="gray-bg">
-        <div class="row border-bottom">
-          <nav
-            class="navbar navbar-static-top"
-            role="navigation"
-            style="margin-bottom: 0"
-          >
-            <div class="navbar-header">
-              <a
-                class="navbar-minimalize minimalize-styl-2 btn btn-primary"
-                href="#"
-                ><i class="fa fa-bars"></i>
-              </a>
-              <form
-                role="search"
-                class="navbar-form-custom"
-                action="search_results.html"
-              >
-                <div class="form-group">
-                  <input
-                    type="text"
-                    placeholder="Search for something..."
-                    class="form-control"
-                    name="top-search"
-                    id="top-search"
-                  />
-                </div>
-              </form>
             </div>
-            <ul class="nav navbar-top-links navbar-right">
-              <li>
-                <span class="m-r-sm text-muted welcome-message"
-                  >Welcome to MOH Admin Page.</span
-                >
-              </li>
-              <li class="dropdown">
-                <a
-                  class="dropdown-toggle count-info"
-                  data-toggle="dropdown"
-                  href="#"
-                >
-                  <i class="fa fa-envelope"></i>
-                  <span class="label label-warning">16</span>
-                </a>
-                <ul class="dropdown-menu dropdown-messages">
-                  <li>
-                    <div class="dropdown-messages-box">
-                      <a class="dropdown-item float-left" href="profile.html">
-                        <img
-                          alt="image"
-                          class="rounded-circle"
-                          src="img/a7.jpg"
-                        />
-                      </a>
-                      <div class="media-body">
-                        <small class="float-right">46h ago</small>
-                        <strong>Sandeepa Dilshan</strong> started his job.
-                        <br />
-                        <small class="text-muted"
-                          >3 days ago at 7:58 pm - 03.21.2023</small
-                        >
-                      </div>
+        </nav>
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i> </a>
+                        <form role="search" class="navbar-form-custom" action="search_results.html">
+                            <div class="form-group">
+                                <input type="text" placeholder="Search for something..." class="form-control"
+                                    name="top-search" id="top-search">
+                            </div>
+                        </form>
                     </div>
-                  </li>
-                  <li class="dropdown-divider"></li>
-                  <li>
-                    <div class="dropdown-messages-box">
-                      <a class="dropdown-item float-left" href="profile.html">
-                        <img
-                          alt="image"
-                          class="rounded-circle"
-                          src="img/a4.jpg"
-                        />
-                      </a>
-                      <div class="media-body">
-                        <small class="float-right text-navy">5h ago</small>
-                        <strong>Madhawa Madusanka</strong> started his job.
-                        <br />
-                        <small class="text-muted"
-                          >4 days ago at 7:58 pm - 03.22.2023</small
-                        >
-                      </div>
-                    </div>
-                  </li>
-                  <li class="dropdown-divider"></li>
-                  <li>
-                    <div class="text-center link-block">
-                      <a href="mailbox.html" class="dropdown-item">
-                        <i class="fa fa-envelope"></i>
-                        <strong>Read All Messages</strong>
-                      </a>
-                    </div>
-                  </li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a
-                  class="dropdown-toggle count-info"
-                  data-toggle="dropdown"
-                  href="#"
-                >
-                  <i class="fa fa-bell"></i>
-                  <span class="label label-primary">8</span>
-                </a>
-                <ul class="dropdown-menu dropdown-alerts">
-                  <li>
-                    <a href="mailbox.html" class="dropdown-item">
-                      <div>
-                        <i class="fa fa-envelope fa-fw"></i> You have 16
-                        messages
-                        <span class="float-right text-muted small"
-                          >4 minutes ago</span
-                        >
-                      </div>
-                    </a>
-                  </li>
-                  <li class="dropdown-divider"></li>
-                  <li>
-                    <a href="profile.html" class="dropdown-item">
-                      <div>
-                        <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                        <span class="float-right text-muted small"
-                          >12 minutes ago</span
-                        >
-                      </div>
-                    </a>
-                  </li>
-                  <li class="dropdown-divider"></li>
-                  <li>
-                    <a href="grid_options.html" class="dropdown-item">
-                      <div>
-                        <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                        <span class="float-right text-muted small"
-                          >4 minutes ago</span
-                        >
-                      </div>
-                    </a>
-                  </li>
-                  <li class="dropdown-divider"></li>
-                  <li>
-                    <div class="text-center link-block">
-                      <a href="notifications.html" class="dropdown-item">
-                        <strong>See All Alerts</strong>
-                        <i class="fa fa-angle-right"></i>
-                      </a>
-                    </div>
-                  </li>
-                </ul>
-              </li>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li>
+                            <span class="m-r-sm text-muted welcome-message"></span>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-messages">
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <a class="dropdown-item float-left" href="profile.html">
+                                            <img alt="image" class="rounded-circle" src="img/a7.jpg">
+                                        </a>
+                                        <div class="media-body">
+                                            <small class="float-right">46h ago</small>
+                                            <strong>Sandeepa Dilshan</strong> started his job. <br>
+                                            <small class="text-muted">3 days ago at 7:58 pm - 03.21.2023</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <a class="dropdown-item float-left" href="profile.html">
+                                            <img alt="image" class="rounded-circle" src="img/a4.jpg">
+                                        </a>
+                                        <div class="media-body ">
+                                            <small class="float-right text-navy">5h ago</small>
+                                            <strong>Madhawa Madusanka</strong> started his job. <br>
+                                            <small class="text-muted">4 days ago at 7:58 pm - 03.22.2023</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a href="mailbox.html" class="dropdown-item">
+                                            <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <li>
+                                    <a href="mailbox.html" class="dropdown-item">
+                                        <div>
+                                            <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                            <span class="float-right text-muted small">4 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li>
+                                    <a href="profile.html" class="dropdown-item">
+                                        <div>
+                                            <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                            <span class="float-right text-muted small">12 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li>
+                                    <a href="grid_options.html" class="dropdown-item">
+                                        <div>
+                                            <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                            <span class="float-right text-muted small">4 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a href="notifications.html" class="dropdown-item">
+                                            <strong>See All Alerts</strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a onclick="logout()">
+                                <i class="fa fa-sign-out"></i> Log out
+                            </a>
+                        </li>
+                    </ul>
 
-              <li>
-                <a onclick="logout()">
-                  <i class="fa fa-sign-out"></i> Log out
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div class="row wrapper border-bottom white-bg page-heading">
-          <div class="col-lg-10">
-            <h2>ADD PHI</h2>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a href="#">Home</a>
-              </li>
-              <li class="breadcrumb-item">
-                <a>PHI</a>
-              </li>
-              <li class="breadcrumb-item active">
-                <strong>ADD PHI</strong>
-              </li>
-            </ol>
-          </div>
-        </div>
+                </nav>
+            </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>ADD PHI</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a>PHI</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <strong>ADD PHI</strong>
+                        </li>
+                    </ol>
+                </div>
+            </div>
 
         <div class="wrapper wrapper-content animated fadeInRight">
           <form id="phiForm">
