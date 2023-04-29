@@ -63,29 +63,6 @@
 							<li><a href="google_maps.html">Map</a></li>
 						</ul>
 					</li>
-					<li>
-						<a href="#"><i class="fa fa-user"></i> <span class="nav-label">Patient</span><span
-								class="fa arrow"></span></a>
-						<ul class="nav nav-second-level collapse">
-							<li><a href="patient.html">Patient History</a></li>
-							<li><a href="add_patient.html">Manage Patient</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#"><i class="fa fa-flask"></i> <span class="nav-label">MOH</span><span
-								class="fa arrow"></span></a>
-						<ul class="nav nav-second-level collapse">
-							<li><a href="add_phi.html">Manage PHI</a></li>
-							<li><a href="phi_job_assign.html">PHI JOB</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">System User</span><span
-								class="fa arrow"></span></a>
-						<ul class="nav nav-second-level collapse">
-							<li><a href="user_add.html">Manage USER</a></li>
-						</ul>
-					</li>
 				</ul>
 			</div>
 		</nav>
@@ -490,6 +467,7 @@
 	
 	<script type="module">
 		window.onload = function () {
+			getUserRole(sessionStorage.getItem("userRole"));
 			loginState();
 			createPatientGrid();
 		};
