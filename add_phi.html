@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>DAS | Add Patient</title>
+    <title>MOH | Add PHI</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -31,60 +31,226 @@
 
 <body>
     <script>
+        window.onload = function () {
+            getUserRole(sessionStorage.getItem("userRole"));
+            loginState();
+            createPhiGrid();
+        };
+
         // Create a Firestore instance
         var db = firebase.firestore();
-        function addPhiDataToAuth() {
-            // Get a reference to the input field and button
-            const phiName = document.querySelector("#name").value;
-            const phiEmail = document.querySelector("#email").value;
-            const phiPassword = document.querySelector("#password").value;
-            firebase.auth().createUserWithEmailAndPassword(phiEmail, phiPassword)
-                .then((userCredential) => {
-                    console.info("userCredential: ", userCredential?.user)
-                    // Add user data to the Firebase Authentication user object
-                    userCredential.user.updateProfile({
-                        displayName: phiName,
-                        photoURL: 'https://example.com/avatar.jpg'
-                    })
-                        .then(() => {
-                            addPhiData(userCredential?.user)
+        function addPhiDataToAuth(event) {
+            var form = document.getElementById("phiForm");
+            form.addEventListener("submit", function (event) {
+                if (form.checkValidity()) {
+                    event.preventDefault();
+                    var name = document.getElementById("name").value;
+                    var email = document.getElementById("email").value;
+                    var birthDay = document.getElementById("date_modified").value;
+                    var telephone = document.getElementById("telephone").value;
+                    var password = document.getElementById("password").value;
+                    var moh = document.getElementById("moh").value;
+                    var district = document.getElementById("district").value;
+
+                    firebase.auth().createUserWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+
+                            // Add phi data to the Firebase Authentication user object
+                            userCredential.user
+                                .updateProfile({
+                                    displayName: name,
+                                    photoURL: "https://example.com/avatar.jpg",
+                                })
+                                .then(() => {
+                                    db.collection("phiTable")
+                                        .doc(userCredential.user?.uid)
+                                        .set({
+                                            name: name,
+                                            email: email,
+                                            dob: birthDay,
+                                            telephone: telephone,
+                                            district: district,
+                                            moh: moh,
+                                            password: password
+                                        })
+                                        .then((docRef) => {
+                                            swal({
+                                                title: "Done!",
+                                                text: "PHI data saved successfully",
+                                                icon: "success",
+                                                button: "Ok",
+                                            }).then((value) => {
+                                                location.reload();
+                                            });
+                                        })
+                                        .catch((error) => {
+                                            swal(
+                                                "System error !",
+                                                "Unable to save data ,Please contact system administator !",
+                                                "error"
+                                            );
+                                        });
+                                })
+                                .catch((error) => {
+                                    console.error(`Error updating user profile: ${error}`);
+                                });
                         })
                         .catch((error) => {
-                            console.error(`Error updating user profile: ${error}`);
+                            console.error(`Error creating user account: ${error}`);
                         });
+                }
+            });
+        }
+
+        async function createPhiGrid() {
+            var gridrow = "";
+
+            const patientJobRef = firebase.firestore().collection("phiTable");
+            patientJobRef.onSnapshot((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    var doc_data = doc.data();
+                    console.log(doc_data);
+
+                    gridrow +=
+                        "<tr>" +
+                        '<th style="font-weight: 500;">' +
+                        doc_data.name +
+                        "</th>" +
+                        '<th style="font-weight: 500;">' +
+                        doc_data.dob +
+                        "</th>" +
+                        '<th style="font-weight: 500;">' +
+                        doc_data.email +
+                        "</th>" +
+                        '<th style="font-weight: 500;">' +
+                        doc_data.telephone +
+                        "</th>" +
+                        '<th style="font-weight: 500;">' +
+                        doc_data.district +
+                        "</th>" +
+                        '<th style="font-weight: 500;">' +
+                        doc_data.moh +
+                        "</th>" +
+                        '<th style="font-weight: 500;"><button class="btn-warning btn btn-xs" type="button" style="width: 70px;" onclick="getPhiData(\'' +
+                        doc.id +
+                        '\')">Edit</button> <span></span><button class="btn btn-danger btn btn-xs" type="submit" " onclick="deletephi(\'' +
+                        doc.id +
+                        "')\">Delete</button></th>" +
+                        "</tr>";
+                    document.getElementById("phi_body").innerHTML = gridrow;
+                });
+            });
+        }
+
+        //get phi data from database and set data into the fields
+        function getPhiData(userId) {
+            database
+                .collection("phiTable")
+                .doc(userId)
+                .get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        $("#uid").val(doc.id);
+                        $("#nic").val(doc.data().nic);
+                        $("#name").val(doc.data().name);
+                        $("#email").val(doc.data().email);
+                        $("#birthDay").val(doc.data().birthDay);
+                        $("#telephone").val(doc.data().telephone);
+                        $("#password").val(doc.data().password);
+                        $("#district").val(doc.data().district);
+                        $("#moh").val(doc.data().moh);
+                    } else {
+                        console.log("No such phi!");
+                    }
                 })
                 .catch((error) => {
-                    console.error(`Error creating user account: ${error}`);
+                    console.log("Error getting document:", error);
                 });
         }
 
-        function addPhiData(user) {
-            // Get a reference to the input field and button
-            const phiName = document.querySelector("#name").value;
-            const phiEmail = document.querySelector("#email").value;
-            const phiDob = document.querySelector("#date_modified").value;
-            const phiTelephone = document.querySelector("#telephone").value;
-            const phiDistrict = document.querySelector("#district").value;
-            const phiMoh = document.querySelector("#moh").value;
+        function updatePhi(event) {
+            var form = document.getElementById("phiForm");
+            form.addEventListener("submit", function (event) {
+                if (form.checkValidity()) {
+                    event.preventDefault();
+                    var uid = document.getElementById("uid").value;
+                    var name = document.getElementById("name").value;
+                    var email = document.getElementById("email").value;
+                    var birthDay = document.getElementById("date_modified").value;
+                    var telephone = document.getElementById("telephone").value;
+                    var password = document.getElementById("password").value;
+                    var moh = document.getElementById("moh").value;
+                    var district = document.getElementById("district").value;
 
-            // Add a new PHI with a generated ID
-            db.collection("phiTable").doc(user?.uid).set({
-                name: phiName,
-                email: phiEmail,
-                dob: phiDob,
-                telephone: phiTelephone,
-                district: phiDistrict,
-                moh: phiMoh
-            })
-                .then((docRef) => {
-                    console.info("Document written with ID: ", docRef.id);
-                })
-                .catch((error) => {
-                    console.info("Error adding document: ", error);
+                    // Create a Firestore instance
+                    var database = firebase.firestore();
+
+                    // update a new user using a ID
+                    database
+                        .collection("phiTable")
+                        .doc(uid)
+                        .update({
+                            name: name,
+                            email: email,
+                            birthDay: birthDay,
+                            telephone: telephone,
+                            password: password,
+                            moh: moh,
+                            district: district
+                        })
+                        .then((docRef) => {
+                            swal({
+                                title: "Done!",
+                                text: "PHI data updated successfully",
+                                icon: "success",
+                                button: "Ok",
+                            }).then((value) => {
+                                location.reload();
+                            });
+                        })
+                        .catch((error) => {
+                            swal(
+                                "System error !",
+                                "Unable to update data ,Please contact system administator !",
+                                "error"
+                            );
+                        });
+                }
+            });
+        }
+
+        //dalete phi
+        function deletephi(id) {
+            database.collection("phiTable").doc(id).delete().then(() => {
+                swal({
+                    title: "Done!",
+                    text: "PHI data deleted successfully",
+                    icon: "success",
+                    button: "Ok",
+                }).then((value) => {
+                    location.reload();
                 });
+            }).catch((error) => {
+                swal("System error !", "Unable to delete record ,Please contact system administator !", "error");
+            });
         }
 
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePassword = document.querySelector('#toggle-password');
+            const password = document.querySelector('#password');
+
+            togglePassword.addEventListener('click', function (e) {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        });
+    </script>
+
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
@@ -244,90 +410,174 @@
             </div>
 
             <div class="wrapper wrapper-content animated fadeInRight">
-
-                <div class="ibox-content m-b-sm border-bottom">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label" for="order_id">Select District</label>
-                                <select id="district" class="form-control">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                </select>
+                <form id="phiForm">
+                    <div class="ibox-content m-b-sm border-bottom">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="order_id">Select
+                                        District</label> <select id="district" class="form-control">
+                                        <option>Colombo</option>
+                                        <option>Gampaha</option>
+                                        <option>Kalutara</option>
+                                        <option>Kandy</option>
+                                        <option>Matale</option>
+                                        <option>Nuwara Eliya</option>
+                                        <option>Galle</option>
+                                        <option>Matara</option>
+                                        <option>Hambantota</option>
+                                        <option>Jaffna</option>
+                                        <option>Kilinochchi</option>
+                                        <option>Mannar</option>
+                                        <option>Vavuniya</option>
+                                        <option>Mullaitivu</option>
+                                        <option>Batticaloa</option>
+                                        <option>Ampara</option>
+                                        <option>Trincomalee</option>
+                                        <option>Kurunegala</option>
+                                        <option>Puttalam</option>
+                                        <option>Anuradhapura</option>
+                                        <option>Polonnaruwa</option>
+                                        <option>Badulla</option>
+                                        <option>Moneragala</option>
+                                        <option>Ratnapura</option>
+                                        <option>Kegalle</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label" for="status">MOH</label>
-                                <select id="moh" class="form-control">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ibox-content m-b-sm border-bottom">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label" for="date_added">Name</label>
-                                <input type="text" id="name" name="name" value="" placeholder="Name"
-                                    class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label" for="email">Email</label>
-                                <input type="text" id="email" name="email" value="" placeholder="Email"
-                                    class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label" for="dob">DOB</label>
-                                <div class="input-group date">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input
-                                        id="date_modified" type="text" class="form-control" value="03/06/2014">
+                            <div class="col-sm-6">
+                                <div id="div_patient_moh" class="form-group">
+                                    <label class="col-form-label" for="status">MOH</label> <select id="moh"
+                                        class="form-control">
+                                        <option>Ampara</option>
+                                        <option>Dehiattakandiya</option>
+                                        <option>Uhana</option>
+                                        <option>Mahaoya</option>
+                                        <option>Padiyathalawa</option>
+                                        <option>Lahugala</option>
+                                        <option>Damana</option>
+                                        <option>Anuradhapura (cnp)</option>
+                                        <option>Kahatagasdigiliya</option>
+                                        <option>Kekirawa(palugaswewa)</option>
+                                        <option>Medawachchiya</option>
+                                        <option>Padaviya</option>
+                                        <option>Thambuttegama</option>
+                                        <option>Galnewa</option>
+                                        <option>Nochchiyagama</option>
+                                        <option>Anuradhapura (nnp/npe)</option>
+                                        <option>Mihintale</option>
+                                        <option>Rajanganaya</option>
+                                        <option>Horowpathana</option>
+                                        <option>Palagala</option>
+                                        <option>Kebethigollewa</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label" for="telephone">Telephone</label>
-                                <input type="text" id="telephone" name="telephone" value="" placeholder="Telephone"
-                                    class="form-control">
+                    </div>
+
+                    <div class="ibox-content m-b-sm border-bottom">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="date_added">Name</label>
+                                    <input type="text" id="name" name="name" value="" placeholder="Name"
+                                        class="form-control" required=""/>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="email">Email</label>
+                                    <input type="text" id="email" name="email" value="" placeholder="Email"
+                                        class="form-control" required=""/>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label" for="password">Password</label>
-                                <input type="text" id="password" name="password" value="" placeholder="Password"
-                                    class="form-control">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="dob">DOB</label>
+                                    <div class="input-group date">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input
+                                            id="date_modified" type="text" class="form-control" value="03/06/2014" required=""/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="telephone">Telephone</label>
+                                    <input type="text" id="telephone" name="telephone" maxlength="10" value="" placeholder="Telephone"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="password">Password</label>
+                                    <div class="d-flex align-items-center">
+                                        <input type="password" id="password" name="password" value=""
+                                            placeholder="Password" class="form-control" required=""
+                                            style="margin-right: 10px;" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-eye-slash" id="toggle-password"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-white btn-sm" type="submit">
+                                    Cancel
+                                </button>
+                                <button class="btn btn-primary btn-sm" type="submit" onclick="addPhiDataToAuth(event)">
+                                    Save
+                                </button>
+                                <button class="btn btn-info btn-sm" type="submit" onclick="updatePhi(event)">
+                                    Update changes
+                                </button>
+                                <input type="text" id="uid" hidden></input>
                             </div>
                         </div>
                     </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group row">
-                        <div class="col-sm-4 col-sm-offset-2">
-                            <button class="btn btn-white btn-sm" type="submit">Cancel</button>
-                            <button class="btn btn-primary btn-sm" type="submit" onclick="addPhiDataToAuth()">Save
-                                changes</button>
+                </form>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>DOB</th>
+                                            <th>email</th>
+                                            <th>Telephone</th>
+                                            <th>District</th>
+                                            <th>MOH</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="phi_body"></tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="7">
+                                                <ul class="pagination float-right"></ul>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="footer">
+                <div><strong>Copyright</strong> ADJ Company &copy; 2023-2024</div>
             </div>
-
         </div>
     </div>
-
-
 
     <!-- Mainly scripts -->
     <script src="js/jquery-3.1.1.min.js"></script>
@@ -348,20 +598,17 @@
 
     <script>
         $(document).ready(function () {
+            $(".summernote").summernote();
 
-            $('.summernote').summernote();
-
-            $('.input-group.date').datepicker({
+            $(".input-group.date").datepicker({
                 todayBtn: "linked",
                 keyboardNavigation: false,
                 forceParse: false,
                 calendarWeeks: true,
-                autoclose: true
+                autoclose: true,
             });
-
         });
     </script>
-
 </body>
 
 </html>
