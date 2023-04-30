@@ -43,12 +43,11 @@
         const phiName = document.querySelector("#name").value;
         const phiEmail = document.querySelector("#email").value;
         const phiPassword = document.querySelector("#password").value;
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(phiEmail, phiPassword)
+ 
+        firebase.auth().createUserWithEmailAndPassword(phiEmail, phiPassword)
           .then((userCredential) => {
-            console.info("userCredential: ", userCredential?.user);
-            // Add user data to the Firebase Authentication user object
+
+            // Add phi data to the Firebase Authentication user object
             userCredential.user
               .updateProfile({
                 displayName: phiName,
@@ -114,6 +113,7 @@
         const phiTelephone = document.querySelector("#telephone").value;
         const phiDistrict = document.querySelector("#district").value;
         const phiMoh = document.querySelector("#moh").value;
+        const phiPassword = document.querySelector("#password").value;
 
         // Add a new PHI with a generated ID
         db.collection("phiTable")
@@ -125,6 +125,7 @@
             telephone: phiTelephone,
             district: phiDistrict,
             moh: phiMoh,
+            password: phiPassword
           })
           .then((docRef) => {
             swal({
@@ -181,7 +182,7 @@
             var email = document.getElementById("email").value;
             var birthDay = document.getElementById("date_modified").value;
             var telephone = document.getElementById("telephone").value;
-            //var password = getElementVal("password");
+            var password = document.getElementById("password").value;
             var moh = document.getElementById("moh").value;
             var district = document.getElementById("district").value;
 
@@ -197,7 +198,7 @@
                 email: email,
                 birthDay: birthDay,
                 telephone: telephone,
-                //password: password,
+                password: password,
                 moh: moh,
                 district: district
               })
@@ -239,6 +240,20 @@
         }
 
     </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const togglePassword = document.querySelector('#toggle-password');
+      const password = document.querySelector('#password');
+
+      togglePassword.addEventListener('click', function (e) {
+          const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+          password.setAttribute('type', type);
+          this.classList.toggle('fa-eye');
+          this.classList.toggle('fa-eye-slash');
+      });
+  });
+</script>
 
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
@@ -490,14 +505,23 @@
                     <label class="col-form-label" for="password"
                       >Password</label
                     >
+                    <div class="d-flex align-items-center">
                     <input
-                      type="text"
+                      type="password"
                       id="password"
                       name="password"
                       value=""
                       placeholder="Password"
                       class="form-control"
+                      required=""
+                      style="margin-right: 10px;"
                     />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                          <i class="fa fa-eye-slash" id="toggle-password"></i>
+                      </span>
+                    </div>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -559,7 +583,6 @@
           </div>
         </div>
         <div class="footer">
-          <div class="float-right">10GB of <strong>250GB</strong> Free.</div>
           <div><strong>Copyright</strong> ADJ Company &copy; 2023-2024</div>
         </div>
       </div>
